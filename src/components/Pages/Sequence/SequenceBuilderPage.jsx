@@ -1,7 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+
 import SequenceStepModal from './SequenceStepModal';
+import SequenceStepConfigModal from './SequenceStepConfigModal';
 
 const SequenceBuilderPage = ({ isDarkMode, sequences, addStep }) => {
   const navigate = useNavigate();
@@ -9,6 +11,8 @@ const SequenceBuilderPage = ({ isDarkMode, sequences, addStep }) => {
   const [activeTab, setActiveTab] = useState('Overview');
   const [sequence, setSequence] = useState(null);
   const [isStepModalOpen, setIsStepModalOpen] = useState(false);
+  const [isConfigModalOpen, setIsConfigModalOpen] = useState(false);
+  const [selectedStep, setSelectedStep] = useState(null);
 
   useEffect(() => {
     const foundSequence = sequences.find(seq => seq.id === id);
@@ -21,9 +25,15 @@ const SequenceBuilderPage = ({ isDarkMode, sequences, addStep }) => {
 
   const tabs = ['Overview', 'Contacts', 'Activity', 'Report', 'Settings'];
 
-  const handleAddStep = (newStep) => {
-    addStep(id, newStep);
+  const handleAddStep = (step) => {
+    setSelectedStep(step);
     setIsStepModalOpen(false);
+    setIsConfigModalOpen(true);
+  };
+
+  const handleSaveConfiguredStep = (configuredStep) => {
+    addStep(id, configuredStep);
+    setIsConfigModalOpen(false);
   };
 
   const openStepModal = () => setIsStepModalOpen(true);
@@ -117,12 +127,19 @@ const SequenceBuilderPage = ({ isDarkMode, sequences, addStep }) => {
         </button>
       </div>
 
-      <SequenceStepModal 
-        isOpen={isStepModalOpen}
-        onClose={() => setIsStepModalOpen(false)}
-        isDarkMode={isDarkMode}
-        onStepSelect={handleAddStep}
-      />
+    <SequenceStepModal 
+      isOpen={isStepModalOpen}
+      onClose={() => setIsStepModalOpen(false)}
+      isDarkMode={isDarkMode}
+      onStepSelect={handleAddStep}
+    />
+    <SequenceStepConfigModal
+      isOpen={isConfigModalOpen}
+      onClose={() => setIsConfigModalOpen(false)}
+      isDarkMode={isDarkMode}
+      step={selectedStep}
+      onSave={handleSaveConfiguredStep}
+    />
     </div>
   );
 };

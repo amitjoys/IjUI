@@ -9,7 +9,7 @@ const ProfileMenu = ({ isOpen, onClose, isDarkMode }) => {
     { icon: User, label: 'Your profile', action: () => navigate('/profile') },
     { icon: CreditCard, label: 'Billing', action: () => navigate('/billing') },
     { icon: Package, label: 'Upgrade plan' },
-    { icon: Users, label: 'Your team' },
+    { icon: Users, label: 'Your team', action: () => navigate('/team') },
     { icon: Linkedin, label: 'LinkedIn extension' },
     { icon: Settings, label: 'Integrations' },
     { icon: Book, label: 'Onboarding hub' },

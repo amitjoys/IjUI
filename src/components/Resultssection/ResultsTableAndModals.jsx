@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight, RefreshCw, Download, Upload, MoreHorizontal, Linkedin, Check, Mail, Phone } from 'lucide-react';
+
 import ProfileModal from './ProfileModal';
 import CompanyModal from './CompanyModal';
 import ResultsTable from './ResultsTable';
@@ -14,6 +16,7 @@ export const ResultsTableAndModals = ({ isDarkMode, activeTab }) => {
   const [totalData, setTotalData] = useState([]);
   const [netNewData, setNetNewData] = useState([]);
   const [savedData, setSavedData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchedData = fetchData(activeTab);
@@ -30,8 +33,17 @@ export const ResultsTableAndModals = ({ isDarkMode, activeTab }) => {
     return [
       { id: 1, name: 'Daniel Raj David', title: 'Chief Executive Officer & Co-Founder', company: 'DeTect Technologies', email: 'daniel@detect.com', phone: '1234567890', saved: false },
       { id: 2, name: 'Simon Sinek', title: 'Founder', company: 'The Curve', email: 'simon@thecurve.com', phone: '2345678901', saved: true },
-      { id: 3, name: 'Zach W', title: 'Founder', company: 'DataExpert.io', email: 'zach@dataexpert.io', phone: '3456789012', saved: false },
+      { id: 3, name: 'Zach W', title: 'Founder', company: 'DataExpert.io', email: 'zach@dataexpert.io', phone: '', saved: false },
       { id: 4, name: 'Codie Sanchez', title: 'Co-Founder', company: 'Unconventional Acquisitions', email: 'codie@unconventional.com', phone: '4567890123', saved: true },
+      { id: 5, name: 'John Doe', title: 'CEO', company: 'ABC Corp', email: 'john@abc.com', phone: '5678901234', saved: false },
+      { id: 6, name: 'Jane Smith', title: 'CTO', company: 'XYZ Inc.', email: 'jane@xyz.com', phone: '6789012345', saved: false },
+      { id: 7, name: 'Jane Doe', title: 'COO', company: 'XYZ Inc.', email: 'jane@xyz.com', phone: '6789012345', saved: false },
+      { id: 8, name: 'John Smith', title: 'CFO', company: 'XYZ Inc.', email: 'john@xyz.com', phone: '6789012345', saved: false },
+      { id: 9, name: 'Jane Doe', title: 'COO', company: 'XYZ Inc.', email: 'jane@xyz.com', phone: '6789012345', saved: false },
+      { id: 10, name: 'John Smith', title: 'CFO', company: 'XYZ Inc.', email: 'john@xyz.com', phone: '6789012345', saved: false },
+      { id: 11, name: 'Jane Doe', title: 'COO', company: 'XYZ Inc.', email: 'jane@xyz.com', phone: '6789012345', saved: false },
+      { id: 12, name: 'John Smith', title: 'CFO', company: 'XYZ Inc.', email: 'john@xyz.com', phone: '6789012345', saved: false },
+    
     ];
   };
 
@@ -41,6 +53,12 @@ export const ResultsTableAndModals = ({ isDarkMode, activeTab }) => {
       { id: 2, name: 'The Curve', industry: 'Consulting', size: '10-50', saved: true },
       { id: 3, name: 'DataExpert.io', industry: 'Data Analytics', size: '100-500', saved: false },
       { id: 4, name: 'Unconventional Acquisitions', industry: 'Finance', size: '10-50', saved: true },
+      { id: 5, name: 'ABC Corp', industry: 'Technology', size: '1000+', saved: false },
+      { id: 6, name: 'XYZ Inc.', industry: 'Consulting', size: '50-100', saved: false },
+      { id: 7, name: 'XYZ Inc.', industry: 'Consulting', size: '10-50', saved: false },
+      { id: 8, name: 'XYZ Inc.', industry: 'Consulting', size: '10-50', saved: false },
+      { id: 9, name: 'XYZ Inc.', industry: 'Consulting', size: '10-50', saved: true },
+
     ];
   };
 

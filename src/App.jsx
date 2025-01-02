@@ -5,14 +5,19 @@ import Sidebar from './components/Layout/Sidebar';
 import Header from './components/Layout/Header';
 import Footer from './components/Layout/Footer';
 
+
 const ApolloDashboard = lazy(() => import('./components/Dashboard/ApolloDashboard'));
 const ProfilePage = lazy(() => import('./components/Pages/ProfilePage'));
 const BillingPage = lazy(() => import('./components/Pages/BillingPage'));
+const BillingPage2 = lazy(() => import('./components/Pages/BillingPage2'));
+const BillingPage3 = lazy(() => import('./components/Pages/BillingPage3'));
 const LoginPage = lazy(() => import('./components/Pages/Login'));
 const RegistrationPage = lazy(() => import('./components/Pages/Registration'));
 const ErrorPage = lazy(() => import('./components/Pages/Errors'));
 const SequenceStartPage = lazy(() => import('./components/Pages/Sequence/SequenceStartPage'));
 const SequenceBuilderPage = lazy(() => import('./components/Pages/Sequence/SequenceBuilderPage'));
+const UserManagementPage = lazy(() => import('./components/Pages/UserManagementPage'));
+const UserManagement = lazy(() => import('./components/Pages/UserMangement'));
 
 const MainLayout = ({ children, isDarkMode, toggleDarkMode, isSidebarCollapsed, toggleSidebar }) => {
   const location = useLocation();
@@ -72,6 +77,10 @@ const App = () => {
             <Route path="/" element={<ApolloDashboard isDarkMode={isDarkMode} />} />
             <Route path="/profile" element={<ProfilePage isDarkMode={isDarkMode} />} />
             <Route path="/billing" element={<BillingPage isDarkMode={isDarkMode} />} />
+            <Route path="/billing2" element={<BillingPage2 isDarkMode={isDarkMode} />} />
+            <Route path="/billing3" element={<BillingPage3 isDarkMode={isDarkMode} />} />
+            <Route path="/team" element={<UserManagementPage isDarkMode={isDarkMode} />} />          
+            <Route path="/team2" element={<UserManagement isDarkMode={isDarkMode} />} />
             <Route path="/login" element={<LoginPage isDarkMode={isDarkMode} />} />
             <Route path="/register" element={<RegistrationPage isDarkMode={isDarkMode} />} />
             <Route path="/error" element={<ErrorPage isDarkMode={isDarkMode} />} />

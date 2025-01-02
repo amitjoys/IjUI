@@ -126,25 +126,83 @@ const BillingPage = ({ isDarkMode }) => {
   const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [cardDetails, setCardDetails] = useState({ number: '', expiry: '', cvv: '' });
-  const [billingAddress, setBillingAddress] = useState({ street: '123 Main Street', city: 'Brooklyn', state: 'NY', zip: '11122' });
-  
+  const [billingAddress, setBillingAddress] = useState({ street: '', city: '', state: '', zip: '' });
+  const [subscription, setSubscription] = useState(null);
+  const [invoices, setInvoices] = useState([]);
+  const [plans, setPlans] = useState([]);
+
   const itemsPerPage = 5;
-  const totalPages = 3;
+  const totalPages = Math.ceil(invoices.length / itemsPerPage);
+
+  useEffect(() => {
+    fetchSubscription();
+    fetchInvoices();
+    fetchPlans();
+  }, []);
+
+  const fetchSubscription = async () => {
+    try {
+      const response = await axios.get('https://www.zohoapis.com/billing/v1/subscriptions', {
+        headers: { 'Authorization': 'Zoho-oauthtoken YOUR_ACCESS_TOKEN' }
+      });
+      setSubscription(response.data.subscriptions[0]);
+    } catch (error) {
+      console.error('Error fetching subscription:', error);
+    }
+  };
+
+  const fetchInvoices = async () => {
+    try {
+      const response = await axios.get('https://www.zohoapis.com/billing/v1/invoices', {
+        headers: { 'Authorization': 'Zoho-oauthtoken YOUR_ACCESS_TOKEN' }
+      });
+      setInvoices(response.data.invoices);
+    } catch (error) {
+      console.error('Error fetching invoices:', error);
+    }
+  };
+
+  const fetchPlans = async () => {
+    try {
+      const response = await axios.get('https://www.zohoapis.com/billing/v1/plans', {
+        headers: { 'Authorization': 'Zoho-oauthtoken YOUR_ACCESS_TOKEN' }
+      });
+      setPlans(response.data.plans);
+    } catch (error) {
+      console.error('Error fetching plans:', error);
+    }
+  };
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
 
-  const handleCardUpdate = (e) => {
+  const handleCardUpdate = async (e) => {
     e.preventDefault();
-    console.log('Updating card details:', cardDetails);
-    setIsCardModalOpen(false);
+    try {
+      await axios.post('https://www.zohoapis.com/billing/v1/customers/cards', cardDetails, {
+        headers: { 'Authorization': 'Zoho-oauthtoken YOUR_ACCESS_TOKEN' }
+      });
+      console.log('Card updated successfully');
+      setIsCardModalOpen(false);
+    } catch (error) {
+      console.error('Error updating card:', error);
+    }
   };
 
-  const handleAddressUpdate = (e) => {
+  const handleAddressUpdate = async (e) => {
     e.preventDefault();
-    console.log('Updating billing address:', billingAddress);
-    setIsAddressModalOpen(false);
+    try {
+      await axios.put('https://www.zohoapis.com/billing/v1/customers/YOUR_CUSTOMER_ID', {
+        billing_address: billingAddress
+      }, {
+        headers: { 'Authorization': 'Zoho-oauthtoken YOUR_ACCESS_TOKEN' }
+      });
+      console.log('Billing address updated successfully');
+      setIsAddressModalOpen(false);
+    } catch (error) {
+      console.error('Error updating billing address:', error);
+    }
   };
 
   const openInvoiceModal = (invoice) => {
@@ -152,13 +210,19 @@ const BillingPage = ({ isDarkMode }) => {
     setIsInvoiceModalOpen(true);
   };
 
-  const invoices = [
-    { srNo: 1, invoiceNumber: 'INV-001', description: 'This is text', amount: 32.34, date: '10/09/23' },
-    { srNo: 2, invoiceNumber: 'INV-002', description: 'This is text', amount: 32.34, date: '11/09/23' },
-    { srNo: 3, invoiceNumber: 'INV-003', description: 'This is text', amount: 32.34, date: '12/09/23' },
-    { srNo: 4, invoiceNumber: 'INV-004', description: 'This is text', amount: 32.34, date: '13/09/23' },
-    { srNo: 5, invoiceNumber: 'INV-005', description: 'This is text', amount: 32.34, date: '14/09/23' },
-  ];
+  const handleUpgrade = async (planId) => {
+    try {
+      await axios.post('https://www.zohoapis.com/billing/v1/subscriptions/YOUR_SUBSCRIPTION_ID/upgrade', {
+        plan_id: planId
+      }, {
+        headers: { 'Authorization': 'Zoho-oauthtoken YOUR_ACCESS_TOKEN' }
+      });
+      console.log('Plan upgraded successfully');
+      fetchSubscription();
+    } catch (error) {
+      console.error('Error upgrading plan:', error);
+    }
+  };
 
   return (
     <div className={`p-6 ${bgColor} ${textColor}`}>
@@ -170,18 +234,26 @@ const BillingPage = ({ isDarkMode }) => {
         <div className="flex flex-col md:flex-row justify-between items-start mb-4">
           <div className="mb-4 md:mb-0">
             <h3 className="font-medium">YOUR SUBSCRIPTION</h3>
-            <p className="text-lg">1x Growth Account</p>
-            <p className="text-sm text-gray-500">$32 per profile/month</p>
+            <p className="text-lg">{subscription?.plan_name || 'Loading...'}</p>
+            <p className="text-sm text-gray-500">${subscription?.rate || 0} per {subscription?.interval || 'month'}</p>
           </div>
           <div>
             <h3 className="font-medium">YOUR NEXT BILL</h3>
-            <p className="text-lg">$32.00</p>
-            <p className="text-sm text-gray-500">on April 3rd, 2023</p>
+            <p className="text-lg">${subscription?.next_billing_amount || 0}</p>
+            <p className="text-sm text-gray-500">on {subscription?.next_billing_date || 'N/A'}</p>
           </div>
         </div>
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-          Upgrade Account
-        </button>
+        <div className="flex flex-wrap gap-2">
+          {plans.map(plan => (
+            <button
+              key={plan.plan_id}
+              onClick={() => handleUpgrade(plan.plan_id)}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            >
+              Upgrade to {plan.name}
+            </button>
+          ))}
+        </div>
       </div>
       
       {/* Payment Methods section */}
@@ -192,7 +264,7 @@ const BillingPage = ({ isDarkMode }) => {
             <h3 className="font-medium">PAYMENT DETAILS</h3>
             <div className="flex items-center mt-2">
               <CreditCard className="mr-2" />
-              <span>•••• •••• •••• 1234</span>
+              <span>•••• •••• •••• {subscription?.card_last4 || '1234'}</span>
             </div>
             <button className="mt-2 text-blue-600 hover:underline" onClick={() => setIsCardModalOpen(true)}>Update Card</button>
           </div>
@@ -212,7 +284,6 @@ const BillingPage = ({ isDarkMode }) => {
           <table className="w-full">
             <thead>
               <tr className="border-b dark:border-gray-700">
-                <th className="text-left pb-2">Sr. No.</th>
                 <th className="text-left pb-2">Invoice Number</th>
                 <th className="text-left pb-2">Description</th>
                 <th className="text-left pb-2">Amount</th>
@@ -222,19 +293,18 @@ const BillingPage = ({ isDarkMode }) => {
             </thead>
             <tbody>
               {invoices.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((invoice) => (
-                <tr key={invoice.srNo} className="border-b dark:border-gray-700">
-                  <td className="py-2">{invoice.srNo}</td>
+                <tr key={invoice.invoice_id} className="border-b dark:border-gray-700">
                   <td className="py-2">
                     <button
                       className="text-blue-600 hover:underline"
                       onClick={() => openInvoiceModal(invoice)}
                     >
-                      {invoice.invoiceNumber}
+                      {invoice.invoice_number}
                     </button>
                   </td>
-                  <td className="py-2">{invoice.description}</td>
-                  <td className="py-2">${invoice.amount.toFixed(2)}</td>
-                  <td className="py-2">{invoice.date}</td>
+                  <td className="py-2">{invoice.reference_number}</td>
+                  <td className="py-2">${invoice.total}</td>
+                  <td className="py-2">{new Date(invoice.date).toLocaleDateString()}</td>
                   <td className="py-2 text-right">•••</td>
                 </tr>
               ))}
@@ -262,7 +332,6 @@ const BillingPage = ({ isDarkMode }) => {
         </div>
       </div>
 
-      {/* Credit Card Update Modal */}
       <Modal isOpen={isCardModalOpen} onClose={() => setIsCardModalOpen(false)} title="Update Credit Card">
         <form onSubmit={handleCardUpdate}>
           <div className="mb-4">
@@ -356,6 +425,7 @@ const BillingPage = ({ isDarkMode }) => {
           <button type="submit" className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Update Address</button>
         </form>
       </Modal>
+
       {/* Invoice Modal */}
       {selectedInvoice && (
         <InvoiceModal
