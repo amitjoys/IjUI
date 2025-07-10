@@ -24,29 +24,42 @@ const ApolloDashboard: React.FC<DashboardProps> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const getGridColumns = (): string => {
-    if (windowWidth < 640) return 'grid-cols-1';
-    if (windowWidth < 1024) return 'grid-cols-2';
-    return 'grid-cols-4';
-  };
-
   return (
-    <div className={`p-4 ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'}`}>
-      <h1 className="text-2xl font-bold mb-4">Search</h1>
-      <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} isDarkMode={isDarkMode} />
-      <div className={`grid ${getGridColumns()} gap-4`}>
-        <div className={`col-span-1 ${isSearchFilterVisible ? '' : 'mb-4'}`}>
-          <SearchAndFilterSection
-            activeTab={activeTab}
-            isDarkMode={isDarkMode}
-            isVisible={isSearchFilterVisible}
-            toggleVisibility={toggleSearchFilterVisibility}
-          />
-        </div>
-        <div className={`${windowWidth < 1024 ? 'col-span-1' : 'col-span-3'} ${isSearchFilterVisible ? '' : 'col-span-full'}`}>
-          <UpgradeBanner isDarkMode={isDarkMode} />
-          <div className="h-[calc(100vh-300px)] overflow-y-auto">
-            <Suspense fallback={<div>Loading...</div>}>
+    <div className={`flex flex-col h-full ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-800'}`}>
+      {/* Header Section */}
+      <div className="flex-shrink-0 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+        <h1 className="text-lg font-semibold mb-3">Search</h1>
+        <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} isDarkMode={isDarkMode} />
+      </div>
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* Sidebar Filters */}
+        {isSearchFilterVisible && (
+          <div className="w-80 flex-shrink-0 border-r border-gray-200 dark:border-gray-700">
+            <SearchAndFilterSection
+              activeTab={activeTab}
+              isDarkMode={isDarkMode}
+              isVisible={isSearchFilterVisible}
+              toggleVisibility={toggleSearchFilterVisibility}
+            />
+          </div>
+        )}
+
+        {/* Results Area - Full Width */}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {/* Upgrade Banner */}
+          <div className="flex-shrink-0 p-4 border-b border-gray-200 dark:border-gray-700">
+            <UpgradeBanner isDarkMode={isDarkMode} />
+          </div>
+
+          {/* Results Table - Full Height */}
+          <div className="flex-1 overflow-hidden">
+            <Suspense fallback={
+              <div className="flex items-center justify-center h-full">
+                <div className="text-sm text-gray-500">Loading...</div>
+              </div>
+            }>
               <LazyResultsTableAndModals isDarkMode={isDarkMode} activeTab={activeTab} />
             </Suspense>
           </div>
