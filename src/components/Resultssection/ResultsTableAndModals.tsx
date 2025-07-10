@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, memo } from 'react';
 import { ChevronLeft, ChevronRight, RefreshCw, Download, Upload, MoreHorizontal, Linkedin, Check, Mail, Phone } from 'lucide-react';
 
 import ProfileModal from './ProfileModal';
@@ -7,7 +7,7 @@ import ResultsTable from './ResultsTable';
 import ResultsTableHeader from './ResultsTableHeader';
 import ResultsTableFooter from './ResultTableFooter';
 
-export const ResultsTableAndModals = ({ isDarkMode, activeTab }) => {
+export const ResultsTableAndModals = memo(({ isDarkMode, activeTab }) => {
   const [activeResultsTab, setActiveResultsTab] = useState('total');
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isCompanyModalOpen, setIsCompanyModalOpen] = useState(false);
@@ -18,18 +18,18 @@ export const ResultsTableAndModals = ({ isDarkMode, activeTab }) => {
   const [savedData, setSavedData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const fetchData = useCallback((tab) => {
+    return tab === 'people' ? generatePeopleData() : generateCompanyData();
+  }, []);
+
   useEffect(() => {
     const fetchedData = fetchData(activeTab);
     setTotalData(fetchedData);
     setNetNewData(fetchedData.filter(item => !item.saved));
     setSavedData(fetchedData.filter(item => item.saved));
-  }, [activeTab]);
+  }, [activeTab, fetchData]);
 
-  const fetchData = (tab) => {
-    return tab === 'people' ? generatePeopleData() : generateCompanyData();
-  };
-
-  const generatePeopleData = () => {
+  const generatePeopleData = useCallback(() => {
     return [
       { id: 1, name: 'Daniel Raj David', title: 'Chief Executive Officer & Co-Founder', company: 'DeTect Technologies', email: 'daniel@detect.com', phone: '1234567890', location: 'Chennai, India', saved: false },
       { id: 2, name: 'Simon Sinek', title: 'Founder', company: 'The Curve', email: 'simon@thecurve.com', phone: '2345678901', location: 'New York, USA', saved: true },
@@ -44,9 +44,9 @@ export const ResultsTableAndModals = ({ isDarkMode, activeTab }) => {
       { id: 11, name: 'Alex Rodriguez', title: 'Lead Designer', company: 'DesignStudio', email: 'alex@designstudio.com', phone: '1234567890', location: 'Barcelona, Spain', saved: false },
       { id: 12, name: 'Lisa Wang', title: 'Data Scientist', company: 'AI Insights', email: 'lisa@aiinsights.com', phone: '2345678901', location: 'Tokyo, Japan', saved: false },
     ];
-  };
+  }, []);
 
-  const generateCompanyData = () => {
+  const generateCompanyData = useCallback(() => {
     return [
       { id: 1, name: 'DeTect Technologies', industry: 'AI & Machine Learning', size: '50-100', location: 'Chennai, India', saved: false },
       { id: 2, name: 'The Curve', industry: 'Business Consulting', size: '10-50', location: 'New York, USA', saved: true },
@@ -58,9 +58,9 @@ export const ResultsTableAndModals = ({ isDarkMode, activeTab }) => {
       { id: 8, name: 'InnovateLabs', industry: 'Product Development', size: '50-100', location: 'Berlin, Germany', saved: false },
       { id: 9, name: 'GrowthCo', industry: 'Marketing Technology', size: '100-200', location: 'Sydney, Australia', saved: true },
     ];
-  };
+  }, []);
 
-  const getCurrentData = () => {
+  const getCurrentData = useCallback(() => {
     switch (activeResultsTab) {
       case 'total':
         return totalData;
@@ -71,9 +71,9 @@ export const ResultsTableAndModals = ({ isDarkMode, activeTab }) => {
       default:
         return totalData;
     }
-  };
+  }, [activeResultsTab, totalData, netNewData, savedData]);
 
-  const openProfileModal = (profile) => {
+  const openProfileModal = useCallback((profile) => {
     setSelectedProfile({
       ...profile,
       website: `www.${profile.company.toLowerCase().replace(' ', '')}.com`,
@@ -84,9 +84,9 @@ export const ResultsTableAndModals = ({ isDarkMode, activeTab }) => {
       currentJob: `${profile.title} at ${profile.company}`
     });
     setIsProfileModalOpen(true);
-  };
+  }, []);
 
-  const openCompanyModal = (company) => {
+  const openCompanyModal = useCallback((company) => {
     setSelectedCompany({
       name: company.name,
       industry: company.industry || 'Technology',
@@ -97,14 +97,18 @@ export const ResultsTableAndModals = ({ isDarkMode, activeTab }) => {
       linkedin: `linkedin.com/company/${company.name.toLowerCase().replace(' ', '')}`
     });
     setIsCompanyModalOpen(true);
-  };  
+  }, []);
 
-  const handleSave = (item) => {
+  const handleSave = useCallback((item) => {
     const updatedTotalData = totalData.map(d => d.id === item.id ? {...d, saved: !d.saved} : d);
     setTotalData(updatedTotalData);
     setNetNewData(updatedTotalData.filter(d => !d.saved));
     setSavedData(updatedTotalData.filter(d => d.saved));
-  };
+  }, [totalData]);
+
+  const handlePageChange = useCallback((page) => {
+    setCurrentPage(page);
+  }, []);
 
   return (
     <div className={`h-full flex flex-col ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
@@ -130,9 +134,9 @@ export const ResultsTableAndModals = ({ isDarkMode, activeTab }) => {
       
       <ResultsTableFooter 
         isDarkMode={isDarkMode} 
-        currentPage={1}
+        currentPage={currentPage}
         totalPages={Math.ceil(getCurrentData().length / 25)}
-        onPageChange={(page) => console.log('Change to page', page)}
+        onPageChange={handlePageChange}
       />
 
       <ProfileModal
@@ -150,6 +154,8 @@ export const ResultsTableAndModals = ({ isDarkMode, activeTab }) => {
       />
     </div>
   );
-};
+});
+
+ResultsTableAndModals.displayName = 'ResultsTableAndModals';
 
 export default ResultsTableAndModals;
