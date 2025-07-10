@@ -215,13 +215,13 @@ const ResultRow = memo(({ result, openProfileModal, openCompanyModal, handleSave
         </div>
       </td>
       <td className="px-3 py-2.5">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1">
           <div className={`text-xs flex-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} title={result.email}>
             <div className="truncate">{activeTab === 'people' && result.email ? (showEmail ? result.email : maskEmail(result.email)) : '-'}</div>
           </div>
           {activeTab === 'people' && result.email && (
             <button 
-              className={`ml-2 p-1 rounded text-xs transition-colors ${
+              className={`p-1 rounded text-xs transition-colors ${
                 isDarkMode 
                   ? showEmail 
                     ? 'bg-blue-600 text-white' 
@@ -239,13 +239,13 @@ const ResultRow = memo(({ result, openProfileModal, openCompanyModal, handleSave
         </div>
       </td>
       <td className="px-3 py-2.5">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1">
           <div className={`text-xs flex-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} title={result.phone}>
             <div className="truncate">{activeTab === 'people' && result.phone ? (showPhone ? result.phone : maskPhone(result.phone)) : '-'}</div>
           </div>
           {activeTab === 'people' && result.phone && (
             <button 
-              className={`ml-2 p-1 rounded text-xs transition-colors ${
+              className={`p-1 rounded text-xs transition-colors ${
                 isDarkMode 
                   ? showPhone 
                     ? 'bg-blue-600 text-white' 
