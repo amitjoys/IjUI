@@ -24,10 +24,9 @@ export default defineConfig({
         manualChunks: {
           // Split vendor libraries into separate chunks
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'ui-vendor': ['framer-motion', 'recharts', 'react-slick'],
-          'icon-vendor': ['lucide-react', '@heroicons/react', 'react-icons'],
-          'headless-vendor': ['@headlessui/react'],
-          'utils-vendor': ['axios', 'ua-parser-js']
+          'ui-vendor': ['framer-motion', 'recharts'],
+          'icon-vendor': ['lucide-react', 'react-icons'],
+          'utils-vendor': ['axios']
         }
       }
     },
@@ -41,6 +40,6 @@ export default defineConfig({
     }
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom']
+    include: ['react', 'react-dom', 'react-router-dom', 'framer-motion']
   }
 })
