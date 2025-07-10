@@ -4,6 +4,7 @@ import Sidebar from './components/Layout/Sidebar';
 import Header from './components/Layout/Header';
 import Footer from './components/Layout/Footer';
 import AnalyticsDashboard from './components/Dashboard/AnalyticsDashboard';
+import type { Sequence, SequenceStep, LayoutProps } from './types';
 
 const ApolloDashboard = lazy(() => import('./components/Dashboard/ApolloDashboard'));
 const ProfilePage = lazy(() => import('./components/Pages/ProfilePage'));
@@ -15,7 +16,15 @@ const SequenceStartPage = lazy(() => import('./components/Pages/Sequence/Sequenc
 const SequenceBuilderPage = lazy(() => import('./components/Pages/Sequence/SequenceBuilderPage'));
 const UserManagement = lazy(() => import('./components/Pages/UserMangement'));
 
-const MainLayout = ({ children, isDarkMode, toggleDarkMode, isSidebarCollapsed, toggleSidebar, showWebsiteFilters, toggleWebsiteFilters }) => {
+const MainLayout: React.FC<LayoutProps> = ({ 
+  children, 
+  isDarkMode, 
+  toggleDarkMode, 
+  isSidebarCollapsed, 
+  toggleSidebar, 
+  showWebsiteFilters, 
+  toggleWebsiteFilters 
+}) => {
   const location = useLocation();
   const isAuthPage = ['/login', '/register'].includes(location.pathname);
   const isErrorPage = location.pathname === '/error';
@@ -60,23 +69,23 @@ const MainLayout = ({ children, isDarkMode, toggleDarkMode, isSidebarCollapsed, 
   );
 };
 
-const App = () => {
-  const [sequences, setSequences] = useState([]);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-  const [showWebsiteFilters, setShowWebsiteFilters] = useState(false);
-  const [searchFiltersVisible, setSearchFiltersVisible] = useState(true);
+const App: React.FC = () => {
+  const [sequences, setSequences] = useState<Sequence[]>([]);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
+  const [showWebsiteFilters, setShowWebsiteFilters] = useState<boolean>(false);
+  const [searchFiltersVisible, setSearchFiltersVisible] = useState<boolean>(true);
 
-  const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
-  const toggleSidebar = () => setIsSidebarCollapsed(!isSidebarCollapsed);
-  const toggleWebsiteFilters = () => setShowWebsiteFilters(!showWebsiteFilters);
-  const toggleSearchFiltersVisibility = () => setSearchFiltersVisible(!searchFiltersVisible);
+  const toggleDarkMode = (): void => setIsDarkMode(!isDarkMode);
+  const toggleSidebar = (): void => setIsSidebarCollapsed(!isSidebarCollapsed);
+  const toggleWebsiteFilters = (): void => setShowWebsiteFilters(!showWebsiteFilters);
+  const toggleSearchFiltersVisibility = (): void => setSearchFiltersVisible(!searchFiltersVisible);
   
-  const addSequence = (newSequence) => {
+  const addSequence = (newSequence: Sequence): void => {
     setSequences([...sequences, newSequence]);
   };
 
-  const addStep = (sequenceId, step) => {
+  const addStep = (sequenceId: string, step: SequenceStep): void => {
     setSequences(prevSequences => prevSequences.map(seq => 
       seq.id === sequenceId 
         ? { ...seq, steps: [...(seq.steps || []), step] }
