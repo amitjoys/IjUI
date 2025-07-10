@@ -1,8 +1,39 @@
 import React, { useState } from 'react';
 import { CreditCard, ChevronLeft, ChevronRight, X, Printer, Download } from 'lucide-react';
-import axios from 'axios';
 
-const Modal = ({ isOpen, onClose, title, children }) => {
+interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  children: React.ReactNode;
+}
+
+interface Invoice {
+  srNo: number;
+  invoiceNumber: string;
+  description: string;
+  amount: number;
+  date: string;
+}
+
+interface CardDetails {
+  number: string;
+  expiry: string;
+  cvv: string;
+}
+
+interface BillingAddress {
+  street: string;
+  city: string;
+  state: string;
+  zip: string;
+}
+
+interface BillingPageProps {
+  isDarkMode: boolean;
+}
+
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
   if (!isOpen) return null;
 
   return (
@@ -20,14 +51,15 @@ const Modal = ({ isOpen, onClose, title, children }) => {
   );
 };
 
-const InvoiceModal = ({ isOpen, onClose, invoice }) => {
+const InvoiceModal: React.FC<{ isOpen: boolean; onClose: () => void; invoice: Invoice }> = ({ isOpen, onClose, invoice }) => {
   const handlePrint = () => {
     window.print();
   };
 
   const handleDownload = () => {
     // Implement download functionality here
-    console.log('Downloading invoice...');
+    // You could use a library like jsPDF or html2pdf
+    alert('Download functionality would be implemented here');
   };
 
   return (
@@ -115,44 +147,49 @@ const InvoiceModal = ({ isOpen, onClose, invoice }) => {
   );
 };
 
-const BillingPage = ({ isDarkMode }) => {
+const BillingPage: React.FC<BillingPageProps> = ({ isDarkMode }) => {
   const bgColor = isDarkMode ? 'bg-gray-900' : 'bg-gray-100';
   const textColor = isDarkMode ? 'text-white' : 'text-gray-800';
   const borderColor = isDarkMode ? 'border-gray-700' : 'border-gray-200';
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isCardModalOpen, setIsCardModalOpen] = useState(false);
-  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
-  const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
-  const [selectedInvoice, setSelectedInvoice] = useState(null);
-  const [cardDetails, setCardDetails] = useState({ number: '', expiry: '', cvv: '' });
-  const [billingAddress, setBillingAddress] = useState({ street: '123 Main Street', city: 'Brooklyn', state: 'NY', zip: '11122' });
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [isCardModalOpen, setIsCardModalOpen] = useState<boolean>(false);
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState<boolean>(false);
+  const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState<boolean>(false);
+  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+  const [cardDetails, setCardDetails] = useState<CardDetails>({ number: '', expiry: '', cvv: '' });
+  const [billingAddress, setBillingAddress] = useState<BillingAddress>({ 
+    street: '123 Main Street', 
+    city: 'Brooklyn', 
+    state: 'NY', 
+    zip: '11122' 
+  });
   
   const itemsPerPage = 5;
   const totalPages = 3;
 
-  const handlePageChange = (newPage) => {
+  const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
 
-  const handleCardUpdate = (e) => {
+  const handleCardUpdate = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Updating card details:', cardDetails);
+    // Handle card update logic here
     setIsCardModalOpen(false);
   };
 
-  const handleAddressUpdate = (e) => {
+  const handleAddressUpdate = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Updating billing address:', billingAddress);
+    // Handle address update logic here
     setIsAddressModalOpen(false);
   };
 
-  const openInvoiceModal = (invoice) => {
+  const openInvoiceModal = (invoice: Invoice) => {
     setSelectedInvoice(invoice);
     setIsInvoiceModalOpen(true);
   };
 
-  const invoices = [
+  const invoices: Invoice[] = [
     { srNo: 1, invoiceNumber: 'INV-001', description: 'This is text', amount: 32.34, date: '10/09/23' },
     { srNo: 2, invoiceNumber: 'INV-002', description: 'This is text', amount: 32.34, date: '11/09/23' },
     { srNo: 3, invoiceNumber: 'INV-003', description: 'This is text', amount: 32.34, date: '12/09/23' },
