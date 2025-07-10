@@ -16,7 +16,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isDarkMode }) => {
     { icon: CheckSquare, label: 'Tasks' },
     { icon: Zap, label: 'Workflows' },
     { icon: BarChart2, label: 'Analytics' },
-    { icon: Settings, label: 'Settings' },
+    { icon: Settings, label: 'Settings' ,path: '/analytics'},
   ];
 
   return (

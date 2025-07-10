@@ -1,9 +1,13 @@
+// Updated Header.tsx
 import React, { useState } from 'react';
 import { Upload, Phone, Bell, Sun, Moon } from 'lucide-react';
 import ProfileMenu from '../Dashboard/ProfileMenu';
+import AnimatedSearchIcon from './AnimatedSearchIcon';
+import SearchModal from './SearchModal';
 
 const Header = ({ isDarkMode, toggleDarkMode }) => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
   return (
     <header className={`${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'} border-b border-gray-200 p-4 flex justify-between items-center`}>
@@ -16,6 +20,10 @@ const Header = ({ isDarkMode, toggleDarkMode }) => {
         <Upload size={20} className="cursor-pointer" />
         <Phone size={20} className="cursor-pointer" />
         <Bell size={20} className="cursor-pointer" />
+        <AnimatedSearchIcon 
+          onClick={() => setIsSearchModalOpen(true)} 
+          isDarkMode={isDarkMode}
+        />
         <button onClick={toggleDarkMode} className="p-1 rounded-full hover:bg-gray-200">
           {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
         </button>
@@ -29,6 +37,11 @@ const Header = ({ isDarkMode, toggleDarkMode }) => {
           <ProfileMenu isOpen={isProfileMenuOpen} onClose={() => setIsProfileMenuOpen(false)} isDarkMode={isDarkMode} />
         </div>
       </div>
+      <SearchModal 
+        isOpen={isSearchModalOpen}
+        onClose={() => setIsSearchModalOpen(false)}
+        isDarkMode={isDarkMode}
+      />
     </header>
   );
 };

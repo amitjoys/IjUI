@@ -1,0 +1,95 @@
+/* Base responsive typography system */
+:root {
+    /* Font size variables */
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-md: 1rem;
+    --font-size-lg: 1.25rem;
+    --font-size-xl: 1.5rem;
+    --font-size-2xl: 2rem;
+    --font-size-3xl: 2.5rem;
+    
+    /* Spacing variables */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+  }
+  
+  /* Base responsive settings */
+  html {
+    font-size: 16px; /* Default base size */
+    box-sizing: border-box;
+  }
+  
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+  
+  body {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Responsive container */
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+  }
+  
+  /* Responsive typography classes */
+  .text-xs { font-size: var(--font-size-xs); }
+  .text-sm { font-size: var(--font-size-sm); }
+  .text-md { font-size: var(--font-size-md); }
+  .text-lg { font-size: var(--font-size-lg); }
+  .text-xl { font-size: var(--font-size-xl); }
+  .text-2xl { font-size: var(--font-size-2xl); }
+  .text-3xl { font-size: var(--font-size-3xl); }
+  
+  /* Media queries for different screen sizes */
+  @media screen and (max-width: 480px) {
+    html {
+      font-size: 14px; /* Smaller base size for mobile */
+    }
+    
+    .container {
+      padding: 0 var(--spacing-sm);
+    }
+  }
+  
+  @media screen and (min-width: 481px) and (max-width: 768px) {
+    html {
+      font-size: 15px;
+    }
+  }
+  
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    html {
+      font-size: 16px;
+    }
+  }
+  
+  @media screen and (min-width: 1025px) {
+    html {
+      font-size: 16px;
+    }
+  }
+  
+  /* Fluid typography for headings (optional) */
+  h1 {
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+  }
+  
+  h2 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+  }
+  
+  h3 {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+  }
+  
