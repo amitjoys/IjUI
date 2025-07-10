@@ -2,7 +2,7 @@ import React from 'react';
 import { RefreshCw, Download, Upload, MoreHorizontal } from 'lucide-react';
 
 const ResultsTableHeader = ({ activeResultsTab, setActiveResultsTab, isDarkMode, totalCount, netNewCount, savedCount }) => (
-  <div className="flex justify-between items-center p-4 border-b border-gray-200">
+  <div className="flex justify-between items-center p-3 border-b border-gray-200">
     <TabButtons 
       activeResultsTab={activeResultsTab} 
       setActiveResultsTab={setActiveResultsTab} 
@@ -11,7 +11,7 @@ const ResultsTableHeader = ({ activeResultsTab, setActiveResultsTab, isDarkMode,
       netNewCount={netNewCount}
       savedCount={savedCount}
     />
-    <div className="flex space-x-4">
+    <div className="flex space-x-3">
       <ExportButton isDarkMode={isDarkMode} />
       <ActionButtons isDarkMode={isDarkMode} />
     </div>
@@ -19,7 +19,7 @@ const ResultsTableHeader = ({ activeResultsTab, setActiveResultsTab, isDarkMode,
 );
 
 const TabButtons = ({ activeResultsTab, setActiveResultsTab, isDarkMode, totalCount, netNewCount, savedCount }) => (
-  <div className="flex space-x-4">
+  <div className="flex space-x-6">
     {[
       { key: 'total', label: 'Total', count: totalCount },
       { key: 'netNew', label: 'Net New', count: netNewCount },
@@ -27,7 +27,11 @@ const TabButtons = ({ activeResultsTab, setActiveResultsTab, isDarkMode, totalCo
     ].map(({ key, label, count }) => (
       <button
         key={key}
-        className={`font-semibold ${activeResultsTab === key ? 'text-blue-500' : isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}
+        className={`text-sm font-medium transition-colors ${
+          activeResultsTab === key 
+            ? 'text-blue-500' 
+            : isDarkMode ? 'text-gray-300 hover:text-gray-100' : 'text-gray-500 hover:text-gray-700'
+        }`}
         onClick={() => setActiveResultsTab(key)}
       >
         {label} ({count})
@@ -37,16 +41,27 @@ const TabButtons = ({ activeResultsTab, setActiveResultsTab, isDarkMode, totalCo
 );
 
 const ExportButton = ({ isDarkMode }) => (
-  <button className={`border rounded px-2 py-1 ${isDarkMode ? 'text-pink-400 border-pink-400' : 'text-pink-500 border-pink-500'}`}>
+  <button className={`border rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
+    isDarkMode 
+      ? 'text-pink-400 border-pink-400 hover:bg-pink-400 hover:text-gray-900' 
+      : 'text-pink-500 border-pink-500 hover:bg-pink-50'
+  }`}>
     Export to CSV
   </button>
 );
 
 const ActionButtons = ({ isDarkMode }) => (
-  <div className="flex space-x-2">
+  <div className="flex space-x-1">
     {[RefreshCw, Download, Upload, MoreHorizontal].map((Icon, index) => (
-      <button key={index} className={`p-1 hover:bg-gray-100 rounded ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-600 hover:bg-gray-100'}`}>
-        <Icon size={16} />
+      <button 
+        key={index} 
+        className={`p-1.5 rounded-md transition-colors ${
+          isDarkMode 
+            ? 'text-gray-400 hover:bg-gray-700 hover:text-gray-200' 
+            : 'text-gray-600 hover:bg-gray-100 hover:text-gray-800'
+        }`}
+      >
+        <Icon size={14} />
       </button>
     ))}
   </div>
