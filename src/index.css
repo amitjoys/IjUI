@@ -2,26 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base font size adjustments for cleaner look */
+/* Enhanced font system for better consistency */
 @layer base {
   html {
-    font-size: 14px; /* Reduced from default 16px */
+    font-size: 16px; /* Standard base font size */
+    scroll-behavior: smooth;
   }
   
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-    line-height: 1.4;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.5;
+    color: #374151;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Consistent headings */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.25;
+    color: #111827;
+  }
+  
+  /* Dark mode body text */
+  .dark body {
+    color: #d1d5db;
+  }
+  
+  .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+    color: #f9fafb;
   }
 }
 
-/* Custom utilities for better text handling */
+/* Enhanced utility classes */
 @layer utilities {
+  /* Text truncation utilities */
   .text-truncate-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    line-height: 1.3;
+    line-height: 1.4;
   }
   
   .text-truncate-1 {
@@ -30,49 +52,100 @@
     text-overflow: ellipsis;
   }
   
+  /* Enhanced table cell base */
   .table-cell-base {
     max-width: 0;
     white-space: normal;
     word-wrap: break-word;
+    vertical-align: middle;
   }
   
-  /* Better button focus states */
+  /* Enhanced button focus states */
   .btn-focus {
-    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-30;
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 focus:ring-offset-2;
   }
   
-  /* Compact spacing */
-  .compact {
+  /* Dark mode focus */
+  .dark .btn-focus {
+    @apply focus:ring-offset-gray-800;
+  }
+  
+  /* Compact text utilities */
+  .text-compact {
+    @apply text-sm leading-tight;
+  }
+  
+  .text-micro {
     @apply text-xs leading-tight;
   }
   
-  /* Improved hover states */
+  /* Enhanced hover effects */
   .hover-lift {
-    transition: all 0.15s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   .hover-lift:hover {
     transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dark .hover-lift:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Enhanced border utilities */
+  .border-elevated {
+    border-width: 1px;
+    border-style: solid;
+    border-color: #e5e7eb;
+  }
+  
+  .dark .border-elevated {
+    border-color: #374151;
+  }
+  
+  /* Glass effect */
+  .glass {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .dark .glass {
+    background: rgba(17, 24, 39, 0.8);
+    border: 1px solid rgba(75, 85, 99, 0.2);
+  }
+  
+  /* Smooth transitions */
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
-/* Custom scrollbar */
+/* Enhanced scrollbar with consistent styling */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
+  border-radius: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: #d1d5db;
-  border-radius: 3px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
+}
+
+.custom-scrollbar::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 /* Dark mode scrollbar */
@@ -82,4 +155,100 @@
 
 .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #6b7280;
+}
+
+/* Table enhancements */
+.table-enhanced {
+  @apply w-full border-collapse;
+}
+
+.table-enhanced th {
+  @apply bg-gray-50 text-gray-700 font-semibold text-sm uppercase tracking-wider;
+}
+
+.dark .table-enhanced th {
+  @apply bg-gray-800 text-gray-300;
+}
+
+.table-enhanced td {
+  @apply text-sm text-gray-900 font-medium;
+}
+
+.dark .table-enhanced td {
+  @apply text-gray-100;
+}
+
+.table-enhanced tbody tr:hover {
+  @apply bg-gray-50;
+}
+
+.dark .table-enhanced tbody tr:hover {
+  @apply bg-gray-800;
+}
+
+/* Form enhancements */
+.form-input {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors;
+}
+
+.dark .form-input {
+  @apply bg-gray-700 border-gray-600 text-gray-100 placeholder-gray-400;
+}
+
+.dark .form-input:focus {
+  @apply border-blue-500 ring-blue-500;
+}
+
+/* Button enhancements */
+.btn {
+  @apply inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors;
+}
+
+.btn-primary {
+  @apply btn bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500;
+}
+
+.btn-secondary {
+  @apply btn bg-gray-100 text-gray-700 hover:bg-gray-200 focus:ring-gray-500;
+}
+
+.dark .btn-secondary {
+  @apply bg-gray-700 text-gray-300 hover:bg-gray-600 focus:ring-gray-500;
+}
+
+.btn-ghost {
+  @apply btn bg-transparent text-gray-700 hover:bg-gray-50 focus:ring-gray-500;
+}
+
+.dark .btn-ghost {
+  @apply text-gray-300 hover:bg-gray-800 focus:ring-gray-500;
+}
+
+/* Status indicators */
+.status-indicator {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.status-success {
+  @apply status-indicator bg-green-100 text-green-800;
+}
+
+.dark .status-success {
+  @apply bg-green-900 text-green-200;
+}
+
+.status-warning {
+  @apply status-indicator bg-yellow-100 text-yellow-800;
+}
+
+.dark .status-warning {
+  @apply bg-yellow-900 text-yellow-200;
+}
+
+.status-error {
+  @apply status-indicator bg-red-100 text-red-800;
+}
+
+.dark .status-error {
+  @apply bg-red-900 text-red-200;
 }
