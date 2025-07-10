@@ -31,17 +31,17 @@ const ResultsTable = ({ results, openProfileModal, openCompanyModal, handleSave,
   return (
     <div className="h-full flex flex-col">
       {/* Selection controls - compact header */}
-      <div className={`flex-shrink-0 px-3 py-2 border-b ${isDarkMode ? 'bg-gray-750 border-gray-600' : 'bg-gray-50 border-gray-200'}`}>
+      <div className={`flex-shrink-0 px-4 py-3 border-b ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'}`}>
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <label className="flex items-center">
               <input
                 type="checkbox"
                 checked={selectAll}
                 onChange={handleSelectAll}
-                className="mr-2 h-3.5 w-3.5 rounded border-gray-300"
+                className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
               />
-              <span className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Select All</span>
+              <span className={`text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Select All</span>
             </label>
             <div className="flex items-center gap-2">
               <input
@@ -49,7 +49,7 @@ const ResultsTable = ({ results, openProfileModal, openCompanyModal, handleSave,
                 value={customSelectCount}
                 onChange={(e) => setCustomSelectCount(e.target.value)}
                 placeholder="Count"
-                className={`px-2 py-1 border rounded text-xs w-14 ${
+                className={`px-3 py-1.5 border rounded-md text-sm w-20 ${
                   isDarkMode 
                     ? 'bg-gray-700 border-gray-600 text-gray-200 placeholder-gray-400' 
                     : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
@@ -57,13 +57,13 @@ const ResultsTable = ({ results, openProfileModal, openCompanyModal, handleSave,
               />
               <button 
                 onClick={handleCustomSelect}
-                className="px-2 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600 transition-colors"
+                className="px-3 py-1.5 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700 transition-colors font-medium"
               >
                 Select
               </button>
             </div>
           </div>
-          <div className="text-xs text-gray-500">
+          <div className={`text-sm font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
             {selectedItems.length} of {results.length} selected
           </div>
         </div>
@@ -73,38 +73,35 @@ const ResultsTable = ({ results, openProfileModal, openCompanyModal, handleSave,
       <div className="flex-1 overflow-auto custom-scrollbar">
         <table className="w-full table-fixed">
           {/* Sticky header */}
-          <thead className={`sticky top-0 z-10 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
+          <thead className={`sticky top-0 z-10 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} border-b-2 ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
             <tr>
-              <th className="px-2 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 w-10">
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 w-12">
                 <span className="sr-only">Select</span>
               </th>
-              <th className="px-2 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 w-44">
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 w-52">
                 {activeTab === 'people' ? 'Name' : 'Company'}
               </th>
-              <th className="px-2 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 w-36">
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 w-44">
                 {activeTab === 'people' ? 'Title' : 'Industry'}
               </th>
-              <th className="px-2 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 w-40">
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 w-44">
                 {activeTab === 'people' ? 'Company' : 'Size'}
               </th>
-              <th className="px-2 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 w-20">
-                Actions
-              </th>
-              <th className="px-2 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 w-48">
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 w-64">
                 Email
               </th>
-              <th className="px-2 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 w-32">
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 w-40">
                 Phone
               </th>
-              <th className="px-2 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 w-36">
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 w-40">
                 Location
               </th>
-              <th className="px-2 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 w-16">
-                Save
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 w-24">
+                Actions
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className={`divide-y ${isDarkMode ? 'divide-gray-700' : 'divide-gray-200'}`}>
             {results.map((result) => (
               <ResultRow
                 key={result.id}
@@ -140,130 +137,143 @@ const ResultRow = ({ result, openProfileModal, openCompanyModal, handleSave, isD
     return `${phone.slice(0, 3)}****${phone.slice(-3)}`;
   };
 
-  const getActionButtonClass = (isShowing) => {
-    if (isDarkMode) {
-      return isShowing 
-        ? 'bg-blue-600 text-white border-blue-600' 
-        : 'bg-gray-700 text-gray-300 border-gray-600 hover:bg-gray-600 hover:text-white';
-    } else {
-      return isShowing 
-        ? 'bg-blue-500 text-white border-blue-500' 
-        : 'bg-gray-100 text-gray-600 border-gray-300 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-300';
-    }
-  };
-
   return (
-    <tr className={`border-t hover:bg-opacity-50 transition-colors ${
+    <tr className={`transition-colors ${
       isDarkMode 
-        ? 'border-gray-700 hover:bg-gray-700' 
-        : 'border-gray-100 hover:bg-gray-50'
+        ? 'hover:bg-gray-700' 
+        : 'hover:bg-gray-50'
     } ${isSelected ? isDarkMode ? 'bg-blue-900 bg-opacity-20' : 'bg-blue-50' : ''}`}>
-      <td className="px-2 py-2">
+      <td className="px-4 py-4">
         <input 
           type="checkbox" 
           checked={isSelected} 
           onChange={onSelect}
-          className="h-3.5 w-3.5 rounded border-gray-300"
+          className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
         />
       </td>
-      <td className="px-2 py-2 table-cell-base">
+      <td className="px-4 py-4">
         <div className="flex items-center">
-          <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium mr-2 flex-shrink-0 ${
-            isDarkMode ? 'bg-gray-600 text-gray-200' : 'bg-gray-100 text-gray-600'
+          <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold mr-3 flex-shrink-0 ${
+            isDarkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-100 text-gray-700'
           }`}>
             {(activeTab === 'people' ? result.name : result.name).charAt(0)}
           </div>
-          <button 
-            onClick={() => activeTab === 'people' ? openProfileModal(result) : openCompanyModal(result)} 
-            className="text-blue-500 hover:text-blue-600 font-medium text-xs hover:underline text-truncate-1 flex-1"
-            title={activeTab === 'people' ? result.name : result.name}
-          >
-            {activeTab === 'people' ? result.name : result.name}
-          </button>
+          <div className="min-w-0 flex-1">
+            <button 
+              onClick={() => activeTab === 'people' ? openProfileModal(result) : openCompanyModal(result)} 
+              className={`text-left font-medium text-sm hover:underline text-blue-600 hover:text-blue-800 truncate block w-full ${
+                isDarkMode ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'
+              }`}
+              title={activeTab === 'people' ? result.name : result.name}
+            >
+              {activeTab === 'people' ? result.name : result.name}
+            </button>
+          </div>
         </div>
       </td>
-      <td className="px-2 py-2 table-cell-base">
-        <span className="text-xs text-gray-600 dark:text-gray-300 text-truncate-2" title={activeTab === 'people' ? result.title : result.industry}>
-          {activeTab === 'people' ? result.title : result.industry}
-        </span>
+      <td className="px-4 py-4">
+        <div className={`text-sm text-left ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} title={activeTab === 'people' ? result.title : result.industry}>
+          <div className="truncate">{activeTab === 'people' ? result.title : result.industry}</div>
+        </div>
       </td>
-      <td className="px-2 py-2 table-cell-base">
+      <td className="px-4 py-4">
         <div className="flex items-center">
           {activeTab === 'people' ? (
             <>
-              <Linkedin className="text-blue-500 mr-1 flex-shrink-0" size={12} />
+              <Linkedin className="text-blue-500 mr-2 flex-shrink-0" size={16} />
               <button 
                 onClick={() => openCompanyModal({ 
                   name: result.company, 
                   industry: 'Unknown', 
                   size: 'Unknown',     
                 })} 
-                className="text-blue-500 hover:text-blue-600 text-xs hover:underline text-truncate-1 flex-1"
+                className={`text-left text-sm hover:underline truncate flex-1 ${
+                  isDarkMode ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'
+                }`}
                 title={result.company}
               >
                 {result.company}
               </button>
             </>
           ) : (
-            <span className="text-xs text-gray-600 dark:text-gray-300 text-truncate-1" title={result.size}>{result.size}</span>
+            <div className={`text-sm text-left ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} title={result.size}>
+              <div className="truncate">{result.size}</div>
+            </div>
           )}
         </div>
       </td>
-      <td className="px-2 py-2">
-        <div className="flex items-center gap-1">
-          {activeTab === 'people' && (
-            <>
-              {result.email && (
-                <button 
-                  className={`flex items-center gap-1 px-2 py-1 rounded text-xs border transition-all duration-200 hover-lift ${getActionButtonClass(showEmail)}`}
-                  onClick={() => setShowEmail(!showEmail)}
-                  title={showEmail ? "Hide Email" : "Show Email"}
-                >
-                  {showEmail ? <EyeOff size={12} /> : <Eye size={12} />}
-                  <span className="hidden sm:inline">Email</span>
-                </button>
-              )}
-              {result.phone && (
-                <button 
-                  className={`flex items-center gap-1 px-2 py-1 rounded text-xs border transition-all duration-200 hover-lift ${getActionButtonClass(showPhone)}`}
-                  onClick={() => setShowPhone(!showPhone)}
-                  title={showPhone ? "Hide Phone" : "Show Phone"}
-                >
-                  {showPhone ? <EyeOff size={12} /> : <Eye size={12} />}
-                  <span className="hidden sm:inline">Phone</span>
-                </button>
-              )}
-            </>
+      <td className="px-4 py-4">
+        <div className="flex items-center justify-between">
+          <div className={`text-sm text-left flex-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} title={result.email}>
+            <div className="truncate">{activeTab === 'people' && result.email ? (showEmail ? result.email : maskEmail(result.email)) : '-'}</div>
+          </div>
+          {activeTab === 'people' && result.email && (
+            <button 
+              className={`ml-2 p-1 rounded text-xs transition-colors ${
+                isDarkMode 
+                  ? showEmail 
+                    ? 'bg-blue-600 text-white' 
+                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  : showEmail 
+                    ? 'bg-blue-500 text-white' 
+                    : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+              }`}
+              onClick={() => setShowEmail(!showEmail)}
+              title={showEmail ? "Hide Email" : "Show Email"}
+            >
+              {showEmail ? <EyeOff size={14} /> : <Eye size={14} />}
+            </button>
           )}
         </div>
       </td>
-      <td className="px-2 py-2 table-cell-base">
-        <div className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} text-truncate-1`} title={result.email}>
-          {activeTab === 'people' && result.email ? (showEmail ? result.email : maskEmail(result.email)) : ''}
+      <td className="px-4 py-4">
+        <div className="flex items-center justify-between">
+          <div className={`text-sm text-left flex-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} title={result.phone}>
+            <div className="truncate">{activeTab === 'people' && result.phone ? (showPhone ? result.phone : maskPhone(result.phone)) : '-'}</div>
+          </div>
+          {activeTab === 'people' && result.phone && (
+            <button 
+              className={`ml-2 p-1 rounded text-xs transition-colors ${
+                isDarkMode 
+                  ? showPhone 
+                    ? 'bg-blue-600 text-white' 
+                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  : showPhone 
+                    ? 'bg-blue-500 text-white' 
+                    : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+              }`}
+              onClick={() => setShowPhone(!showPhone)}
+              title={showPhone ? "Hide Phone" : "Show Phone"}
+            >
+              {showPhone ? <EyeOff size={14} /> : <Eye size={14} />}
+            </button>
+          )}
         </div>
       </td>
-      <td className="px-2 py-2 table-cell-base">
-        <div className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} text-truncate-1`} title={result.phone}>
-          {activeTab === 'people' && result.phone ? (showPhone ? result.phone : maskPhone(result.phone)) : ''}
-        </div>
-      </td>
-      <td className="px-2 py-2 table-cell-base">
+      <td className="px-4 py-4">
         <div className="flex items-center">
-          <MapPin size={10} className="text-gray-400 mr-1 flex-shrink-0" />
-          <span className="text-xs text-gray-600 dark:text-gray-300 text-truncate-1" title={result.location}>
-            {result.location || '-'}
-          </span>
+          <MapPin size={12} className="text-gray-400 mr-2 flex-shrink-0" />
+          <div className={`text-sm text-left ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} title={result.location}>
+            <div className="truncate">{result.location || '-'}</div>
+          </div>
         </div>
       </td>
-      <td className="px-2 py-2">
+      <td className="px-4 py-4">
         <button 
           onClick={() => handleSave(result)}
-          className="flex items-center justify-center hover:opacity-80 transition-opacity"
+          className={`p-2 rounded-full transition-colors ${
+            result.saved 
+              ? 'bg-green-100 text-green-600 hover:bg-green-200' 
+              : isDarkMode 
+                ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' 
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}
+          title={result.saved ? "Saved" : "Save"}
         >
           {result.saved ? (
-            <Check size={12} className="text-green-500" />
+            <Check size={16} className="text-green-600" />
           ) : (
-            <span className="text-xs text-blue-500 hover:underline">Save</span>
+            <span className="text-xs font-medium">Save</span>
           )}
         </button>
       </td>
