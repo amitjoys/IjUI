@@ -1,12 +1,13 @@
-import React, { useState, lazy, Suspense } from 'react';
+import React, { useState, lazy, Suspense, useCallback, useMemo } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Sidebar from './components/Layout/Sidebar';
 import Header from './components/Layout/Header';
 import Footer from './components/Layout/Footer';
-import AnalyticsDashboard from './components/Dashboard/AnalyticsDashboard';
 import type { Sequence, SequenceStep, LayoutProps } from './types';
 
+// Lazy load all components for better performance
 const ApolloDashboard = lazy(() => import('./components/Dashboard/ApolloDashboard'));
+const AnalyticsDashboard = lazy(() => import('./components/Dashboard/AnalyticsDashboard'));
 const ProfilePage = lazy(() => import('./components/Pages/ProfilePage'));
 const BillingPage = lazy(() => import('./components/Pages/BillingPage'));
 const LoginPage = lazy(() => import('./components/Pages/Login'));
@@ -16,7 +17,15 @@ const SequenceStartPage = lazy(() => import('./components/Pages/Sequence/Sequenc
 const SequenceBuilderPage = lazy(() => import('./components/Pages/Sequence/SequenceBuilderPage'));
 const UserManagement = lazy(() => import('./components/Pages/UserManagement'));
 
-const MainLayout: React.FC<LayoutProps> = ({ 
+// Optimized loading component
+const LoadingSpinner = () => (
+  <div className="flex items-center justify-center h-full">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+    <div className="ml-3 text-gray-500">Loading...</div>
+  </div>
+);
+
+const MainLayout: React.FC<LayoutProps> = React.memo(({ 
   children, 
   isDarkMode, 
   toggleDarkMode, 
@@ -26,8 +35,16 @@ const MainLayout: React.FC<LayoutProps> = ({
   toggleWebsiteFilters 
 }) => {
   const location = useLocation();
-  const isAuthPage = ['/login', '/register'].includes(location.pathname);
-  const isErrorPage = location.pathname === '/error';
+  
+  const isAuthPage = useMemo(() => 
+    ['/login', '/register'].includes(location.pathname), 
+    [location.pathname]
+  );
+  
+  const isErrorPage = useMemo(() => 
+    location.pathname === '/error', 
+    [location.pathname]
+  );
 
   if (isAuthPage || isErrorPage) {
     return <>{children}</>;
@@ -67,7 +84,9 @@ const MainLayout: React.FC<LayoutProps> = ({
       </div>
     </div>
   );
-};
+});
+
+MainLayout.displayName = 'MainLayout';
 
 const App: React.FC = () => {
   const [sequences, setSequences] = useState<Sequence[]>([]);
@@ -76,38 +95,38 @@ const App: React.FC = () => {
   const [showWebsiteFilters, setShowWebsiteFilters] = useState<boolean>(false);
   const [searchFiltersVisible, setSearchFiltersVisible] = useState<boolean>(true);
 
-  const toggleDarkMode = (): void => setIsDarkMode(!isDarkMode);
-  const toggleSidebar = (): void => setIsSidebarCollapsed(!isSidebarCollapsed);
-  const toggleWebsiteFilters = (): void => setShowWebsiteFilters(!showWebsiteFilters);
-  const toggleSearchFiltersVisibility = (): void => setSearchFiltersVisible(!searchFiltersVisible);
+  // Memoize callback functions to prevent unnecessary re-renders
+  const toggleDarkMode = useCallback((): void => setIsDarkMode(prev => !prev), []);
+  const toggleSidebar = useCallback((): void => setIsSidebarCollapsed(prev => !prev), []);
+  const toggleWebsiteFilters = useCallback((): void => setShowWebsiteFilters(prev => !prev), []);
+  const toggleSearchFiltersVisibility = useCallback((): void => setSearchFiltersVisible(prev => !prev), []);
   
-  const addSequence = (newSequence: Sequence): void => {
-    setSequences([...sequences, newSequence]);
-  };
+  const addSequence = useCallback((newSequence: Sequence): void => {
+    setSequences(prev => [...prev, newSequence]);
+  }, []);
 
-  const addStep = (sequenceId: string, step: SequenceStep): void => {
+  const addStep = useCallback((sequenceId: string, step: SequenceStep): void => {
     setSequences(prevSequences => prevSequences.map(seq => 
       seq.id === sequenceId 
         ? { ...seq, steps: [...(seq.steps || []), step] }
         : seq
     ));
-  };
+  }, []);
+
+  // Memoize layout props to prevent unnecessary re-renders
+  const layoutProps = useMemo(() => ({
+    isDarkMode,
+    toggleDarkMode,
+    isSidebarCollapsed,
+    toggleSidebar,
+    showWebsiteFilters,
+    toggleWebsiteFilters
+  }), [isDarkMode, toggleDarkMode, isSidebarCollapsed, toggleSidebar, showWebsiteFilters, toggleWebsiteFilters]);
 
   return (
     <Router>
-      <MainLayout
-        isDarkMode={isDarkMode}
-        toggleDarkMode={toggleDarkMode}
-        isSidebarCollapsed={isSidebarCollapsed}
-        toggleSidebar={toggleSidebar}
-        showWebsiteFilters={showWebsiteFilters}
-        toggleWebsiteFilters={toggleWebsiteFilters}
-      >
-        <Suspense fallback={
-          <div className="flex items-center justify-center h-full">
-            <div className="text-gray-500">Loading...</div>
-          </div>
-        }>
+      <MainLayout {...layoutProps}>
+        <Suspense fallback={<LoadingSpinner />}>
           <Routes>
             <Route path="/" element={
               <ApolloDashboard 
