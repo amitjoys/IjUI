@@ -14,10 +14,11 @@ const ApolloDashboard: React.FC<DashboardProps> = ({
   toggleSearchFiltersVisibility 
 }) => {
   const [activeTab, setActiveTab] = useState<string>('people');
-  const [isSearchFilterVisible, setIsSearchFilterVisible] = useState<boolean>(true);
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 
-  const toggleSearchFilterVisibility = (): void => setIsSearchFilterVisible(!isSearchFilterVisible);
+  // Use the prop from parent component instead of local state
+  const isSearchFilterVisible = searchFiltersVisible;
+  const toggleSearchFilterVisibility = toggleSearchFiltersVisibility;
 
   useEffect(() => {
     const handleResize = (): void => setWindowWidth(window.innerWidth);
