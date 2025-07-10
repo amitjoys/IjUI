@@ -117,19 +117,19 @@ return (
 <div className="mt-4">
 <h4 className="font-semibold mb-2">Contact Details</h4>
 <div className="space-y-2">
-<div className="flex items-center">
+<div className="flex items-center gap-2">
 <p><span className="font-semibold">Email:</span> {showEmail ? profile.email : maskEmail(profile.email)}</p>
 <button 
-className={`ml-2 ${isDarkMode ? 'text-gray-300 hover:text-gray-100' : 'text-gray-500 hover:text-gray-700'}`}
+className={`${isDarkMode ? 'text-gray-300 hover:text-gray-100' : 'text-gray-500 hover:text-gray-700'}`}
 onClick={() => setShowEmail(!showEmail)}
 >
 {showEmail ? <EyeOff size={16} /> : <Eye size={16} />}
 </button>
 </div>
-<div className="flex items-center">
+<div className="flex items-center gap-2">
 <p><span className="font-semibold">Phone:</span> {showPhone ? profile.phone : maskPhone(profile.phone)}</p>
 <button 
-className={`ml-2 ${isDarkMode ? 'text-gray-300 hover:text-gray-100' : 'text-gray-500 hover:text-gray-700'}`}
+className={`${isDarkMode ? 'text-gray-300 hover:text-gray-100' : 'text-gray-500 hover:text-gray-700'}`}
 onClick={() => setShowPhone(!showPhone)}
 >
 {showPhone ? <EyeOff size={16} /> : <Eye size={16} />}
