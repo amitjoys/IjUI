@@ -110,10 +110,7 @@ const App = () => {
             } />
             <Route path="/profile" element={<ProfilePage isDarkMode={isDarkMode} />} />
             <Route path="/billing" element={<BillingPage isDarkMode={isDarkMode} />} />
-            <Route path="/billing2" element={<BillingPage2 isDarkMode={isDarkMode} />} />
-            <Route path="/billing3" element={<BillingPage3 isDarkMode={isDarkMode} />} />
-            <Route path="/team" element={<UserManagementPage isDarkMode={isDarkMode} />} />          
-            <Route path="/team2" element={<UserManagement isDarkMode={isDarkMode} />} />
+            <Route path="/team" element={<UserManagement isDarkMode={isDarkMode} />} />
             <Route path="/login" element={<LoginPage isDarkMode={isDarkMode} />} />
             <Route path="/register" element={<RegistrationPage isDarkMode={isDarkMode} />} />
             <Route path="/error" element={<ErrorPage isDarkMode={isDarkMode} />} />
