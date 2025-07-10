@@ -3,7 +3,6 @@ import { ChevronUp, ChevronDown, X, ToggleLeft, ToggleRight, Info, Globe, BarCha
 import BuyerIntentModal from './BuyerIntentModal';
 import WebsiteTrackingModal from './WebsiteTrackingModal';
 import { useNavigate } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 
 const SearchAndFilterSection = memo(({ activeTab, isDarkMode, isVisible, toggleVisibility }) => {
   const [isBuyerIntentModalOpen, setIsBuyerIntentModalOpen] = useState(false);
