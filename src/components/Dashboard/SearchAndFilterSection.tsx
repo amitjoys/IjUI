@@ -194,5 +194,3 @@ const SearchAndFilterSection = memo(({ activeTab, isDarkMode, isVisible, toggleV
 SearchAndFilterSection.displayName = 'SearchAndFilterSection';
 
 export default SearchAndFilterSection;
-
-export default SearchAndFilterSection;
