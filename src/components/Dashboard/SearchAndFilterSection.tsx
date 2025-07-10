@@ -1,13 +1,8 @@
-import React, { useState } from 'react';
-import { ChevronUp, ChevronDown, X, ToggleLeft, ToggleRight, Info, Globe, BarChart, ChevronRight } from 'lucide-react';
-import BuyerIntentModal from './BuyerIntentModal';
-import WebsiteTrackingModal from './WebsiteTrackingModal';
-import { useNavigate } from 'react-router-dom';
-
 import React, { useState, useCallback, memo } from 'react';
 import { ChevronUp, ChevronDown, X, ToggleLeft, ToggleRight, Info, Globe, BarChart, ChevronRight } from 'lucide-react';
 import BuyerIntentModal from './BuyerIntentModal';
 import WebsiteTrackingModal from './WebsiteTrackingModal';
+import { useNavigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const SearchAndFilterSection = memo(({ activeTab, isDarkMode, isVisible, toggleVisibility }) => {
