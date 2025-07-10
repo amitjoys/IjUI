@@ -17,5 +17,30 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 3000,
     allowedHosts: true
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Split vendor libraries into separate chunks
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'ui-vendor': ['framer-motion', 'recharts', 'react-slick'],
+          'icon-vendor': ['lucide-react', '@heroicons/react', 'react-icons'],
+          'headless-vendor': ['@headlessui/react'],
+          'utils-vendor': ['axios', 'ua-parser-js']
+        }
+      }
+    },
+    chunkSizeWarningLimit: 600,
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      }
+    }
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom']
   }
 })
