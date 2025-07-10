@@ -2,23 +2,29 @@ import React, { useState, useEffect, lazy, Suspense } from 'react';
 import TabNavigation from './TabNavigation';
 import SearchAndFilterSection from './SearchAndFilterSection';
 import UpgradeBanner from './UpgradeBanner';
+import type { DashboardProps } from '../../types';
 
 const LazyResultsTableAndModals = lazy(() => import('../Resultssection/ResultsTableAndModals'));
 
-const ApolloDashboard = ({ isDarkMode }) => {
-  const [activeTab, setActiveTab] = useState('people');
-  const [isSearchFilterVisible, setIsSearchFilterVisible] = useState(true);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+const ApolloDashboard: React.FC<DashboardProps> = ({ 
+  isDarkMode, 
+  showWebsiteFilters, 
+  searchFiltersVisible, 
+  toggleSearchFiltersVisibility 
+}) => {
+  const [activeTab, setActiveTab] = useState<string>('people');
+  const [isSearchFilterVisible, setIsSearchFilterVisible] = useState<boolean>(true);
+  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 
-  const toggleSearchFilterVisibility = () => setIsSearchFilterVisible(!isSearchFilterVisible);
+  const toggleSearchFilterVisibility = (): void => setIsSearchFilterVisible(!isSearchFilterVisible);
 
   useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
+    const handleResize = (): void => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const getGridColumns = () => {
+  const getGridColumns = (): string => {
     if (windowWidth < 640) return 'grid-cols-1';
     if (windowWidth < 1024) return 'grid-cols-2';
     return 'grid-cols-4';
