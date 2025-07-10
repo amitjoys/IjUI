@@ -27,8 +27,7 @@ export default defineConfig({
           'motion-vendor': ['framer-motion'],
           'chart-vendor': ['recharts'], 
           'carousel-vendor': ['react-slick', 'slick-carousel'],
-          'icon-vendor': ['lucide-react', 'react-icons'],
-          'ui-vendor': ['@headlessui/react', '@heroicons/react']
+          'icon-vendor': ['lucide-react', 'react-icons']
         }
       }
     },
@@ -46,7 +45,6 @@ export default defineConfig({
     target: 'esnext'
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom'],
-    exclude: ['framer-motion', 'recharts']
+    include: ['react', 'react-dom', 'react-router-dom']
   }
 })
