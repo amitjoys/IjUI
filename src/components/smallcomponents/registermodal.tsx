@@ -1,43 +1,57 @@
 import React, { useState, useEffect } from 'react';
 
-function RegisterModal() {
-  const [verificationCode, setVerificationCode] = useState('');
-  const [showResendButton, setShowResendButton] = useState(false);
-  const [timer, setTimer] = useState(null);
+interface TimerRef {
+  current: NodeJS.Timeout | null;
+}
+
+const RegisterModal: React.FC = () => {
+  const [verificationCode, setVerificationCode] = useState<string>('');
+  const [showResendButton, setShowResendButton] = useState<boolean>(false);
+  const timer: TimerRef = { current: null };
 
   const startTimer = () => {
     const newTimer = setTimeout(() => {
       setShowResendButton(true);
     }, 60000);
-    setTimer(newTimer);
+    timer.current = newTimer;
   };
 
   useEffect(() => {
     startTimer();
 
     // Clean up the timer if the component unmounts
-    return () => clearTimeout(timer);
+    return () => {
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+    };
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle verification logic here
-    console.log('Verification code submitted:', verificationCode);
     // Close the modal after submission if needed
-    document.getElementById('my_modal_3').close();
+    const modal = document.getElementById('my_modal_3') as HTMLDialogElement;
+    if (modal) {
+      modal.close();
+    }
   };
 
   const handleResend = () => {
     // Logic to resend the verification code
-    console.log('Verification code resent');
     setShowResendButton(false);
     startTimer(); // Restart the timer
   };
 
   const handleCloseModal = () => {
-    document.getElementById('my_modal_3').close();
+    const modal = document.getElementById('my_modal_3') as HTMLDialogElement;
+    if (modal) {
+      modal.close();
+    }
     setShowResendButton(false); // Hide the resend button when modal closes
-    clearTimeout(timer); // Clear existing timer
+    if (timer.current) {
+      clearTimeout(timer.current); // Clear existing timer
+    }
     startTimer(); // Restart the timer when modal is reopened
   };
 
@@ -89,6 +103,6 @@ function RegisterModal() {
       </div>
     </dialog>
   );
-}
+};
 
 export default RegisterModal;
