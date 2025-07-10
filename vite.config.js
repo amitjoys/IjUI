@@ -24,23 +24,29 @@ export default defineConfig({
         manualChunks: {
           // Split vendor libraries into separate chunks for better caching
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'ui-vendor': ['framer-motion', 'recharts'],
-          'icon-vendor': ['lucide-react', 'react-icons']
+          'motion-vendor': ['framer-motion'],
+          'chart-vendor': ['recharts'], 
+          'carousel-vendor': ['react-slick', 'slick-carousel'],
+          'icon-vendor': ['lucide-react', 'react-icons'],
+          'ui-vendor': ['@headlessui/react', '@heroicons/react']
         }
       }
     },
-    chunkSizeWarningLimit: 500,
+    chunkSizeWarningLimit: 300,
     minify: 'terser',
     terserOptions: {
       compress: {
         drop_console: true,
-        drop_debugger: true
+        drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info', 'console.warn']
       }
     },
     cssCodeSplit: true,
-    sourcemap: false
+    sourcemap: false,
+    target: 'esnext'
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom']
+    include: ['react', 'react-dom', 'react-router-dom'],
+    exclude: ['framer-motion', 'recharts']
   }
 })
