@@ -22,24 +22,25 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          // Split vendor libraries into separate chunks
+          // Split vendor libraries into separate chunks for better caching
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           'ui-vendor': ['framer-motion', 'recharts'],
-          'icon-vendor': ['lucide-react', 'react-icons'],
-          'utils-vendor': ['axios']
+          'icon-vendor': ['lucide-react', 'react-icons']
         }
       }
     },
-    chunkSizeWarningLimit: 600,
+    chunkSizeWarningLimit: 500,
     minify: 'terser',
     terserOptions: {
       compress: {
         drop_console: true,
         drop_debugger: true
       }
-    }
+    },
+    cssCodeSplit: true,
+    sourcemap: false
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom', 'framer-motion']
+    include: ['react', 'react-dom', 'react-router-dom']
   }
 })
