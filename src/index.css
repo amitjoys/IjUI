@@ -1,3 +1,85 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Base font size adjustments for cleaner look */
+@layer base {
+  html {
+    font-size: 14px; /* Reduced from default 16px */
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    line-height: 1.4;
+  }
+}
+
+/* Custom utilities for better text handling */
+@layer utilities {
+  .text-truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.3;
+  }
+  
+  .text-truncate-1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .table-cell-base {
+    max-width: 0;
+    white-space: normal;
+    word-wrap: break-word;
+  }
+  
+  /* Better button focus states */
+  .btn-focus {
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-30;
+  }
+  
+  /* Compact spacing */
+  .compact {
+    @apply text-xs leading-tight;
+  }
+  
+  /* Improved hover states */
+  .hover-lift {
+    transition: all 0.15s ease;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Dark mode scrollbar */
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #4b5563;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}

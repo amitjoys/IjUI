@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Linkedin, Check, Mail, Phone, MapPin } from 'lucide-react';
+import { Linkedin, Check, Mail, Phone, MapPin, Eye, EyeOff } from 'lucide-react';
 
 const ResultsTable = ({ results, openProfileModal, openCompanyModal, handleSave, isDarkMode, activeTab }) => {
   const [selectedItems, setSelectedItems] = useState([]);
@@ -31,15 +31,15 @@ const ResultsTable = ({ results, openProfileModal, openCompanyModal, handleSave,
   return (
     <div className="h-full flex flex-col">
       {/* Selection controls - compact header */}
-      <div className={`flex-shrink-0 px-4 py-2 border-b ${isDarkMode ? 'bg-gray-750 border-gray-600' : 'bg-gray-50 border-gray-200'}`}>
+      <div className={`flex-shrink-0 px-3 py-2 border-b ${isDarkMode ? 'bg-gray-750 border-gray-600' : 'bg-gray-50 border-gray-200'}`}>
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <label className="flex items-center">
               <input
                 type="checkbox"
                 checked={selectAll}
                 onChange={handleSelectAll}
-                className="mr-2 h-4 w-4 rounded border-gray-300"
+                className="mr-2 h-3.5 w-3.5 rounded border-gray-300"
               />
               <span className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Select All</span>
             </label>
@@ -49,7 +49,7 @@ const ResultsTable = ({ results, openProfileModal, openCompanyModal, handleSave,
                 value={customSelectCount}
                 onChange={(e) => setCustomSelectCount(e.target.value)}
                 placeholder="Count"
-                className={`px-2 py-1 border rounded text-xs w-16 ${
+                className={`px-2 py-1 border rounded text-xs w-14 ${
                   isDarkMode 
                     ? 'bg-gray-700 border-gray-600 text-gray-200 placeholder-gray-400' 
                     : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
@@ -70,36 +70,36 @@ const ResultsTable = ({ results, openProfileModal, openCompanyModal, handleSave,
       </div>
 
       {/* Table container - full height */}
-      <div className="flex-1 overflow-auto">
-        <table className="w-full">
+      <div className="flex-1 overflow-auto custom-scrollbar">
+        <table className="w-full table-fixed">
           {/* Sticky header */}
           <thead className={`sticky top-0 z-10 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
             <tr>
-              <th className="px-3 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 w-12">
+              <th className="px-2 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 w-10">
                 <span className="sr-only">Select</span>
               </th>
-              <th className="px-3 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 min-w-[180px]">
+              <th className="px-2 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 w-44">
                 {activeTab === 'people' ? 'Name' : 'Company'}
               </th>
-              <th className="px-3 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 min-w-[140px]">
+              <th className="px-2 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 w-36">
                 {activeTab === 'people' ? 'Title' : 'Industry'}
               </th>
-              <th className="px-3 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 min-w-[160px]">
+              <th className="px-2 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 w-40">
                 {activeTab === 'people' ? 'Company' : 'Size'}
               </th>
-              <th className="px-3 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 w-20">
+              <th className="px-2 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 w-20">
                 Actions
               </th>
-              <th className="px-3 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 min-w-[200px]">
+              <th className="px-2 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 w-48">
                 Email
               </th>
-              <th className="px-3 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 min-w-[130px]">
+              <th className="px-2 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 w-32">
                 Phone
               </th>
-              <th className="px-3 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 min-w-[140px]">
+              <th className="px-2 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 w-36">
                 Location
               </th>
-              <th className="px-3 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 w-16">
+              <th className="px-2 py-2 text-left text-xs font-medium border-b border-gray-200 dark:border-gray-600 w-16">
                 Save
               </th>
             </tr>
@@ -140,11 +140,15 @@ const ResultRow = ({ result, openProfileModal, openCompanyModal, handleSave, isD
     return `${phone.slice(0, 3)}****${phone.slice(-3)}`;
   };
 
-  const getIconColor = (isShowing) => {
+  const getActionButtonClass = (isShowing) => {
     if (isDarkMode) {
-      return isShowing ? 'text-blue-400' : 'text-gray-400 hover:text-gray-200';
+      return isShowing 
+        ? 'bg-blue-600 text-white border-blue-600' 
+        : 'bg-gray-700 text-gray-300 border-gray-600 hover:bg-gray-600 hover:text-white';
     } else {
-      return isShowing ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700';
+      return isShowing 
+        ? 'bg-blue-500 text-white border-blue-500' 
+        : 'bg-gray-100 text-gray-600 border-gray-300 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-300';
     }
   };
 
@@ -154,108 +158,110 @@ const ResultRow = ({ result, openProfileModal, openCompanyModal, handleSave, isD
         ? 'border-gray-700 hover:bg-gray-700' 
         : 'border-gray-100 hover:bg-gray-50'
     } ${isSelected ? isDarkMode ? 'bg-blue-900 bg-opacity-20' : 'bg-blue-50' : ''}`}>
-      <td className="px-3 py-2">
+      <td className="px-2 py-2">
         <input 
           type="checkbox" 
           checked={isSelected} 
           onChange={onSelect}
-          className="h-4 w-4 rounded border-gray-300"
+          className="h-3.5 w-3.5 rounded border-gray-300"
         />
       </td>
-      <td className="px-3 py-2">
+      <td className="px-2 py-2 table-cell-base">
         <div className="flex items-center">
-          <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium mr-3 ${
+          <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium mr-2 flex-shrink-0 ${
             isDarkMode ? 'bg-gray-600 text-gray-200' : 'bg-gray-100 text-gray-600'
           }`}>
             {(activeTab === 'people' ? result.name : result.name).charAt(0)}
           </div>
           <button 
             onClick={() => activeTab === 'people' ? openProfileModal(result) : openCompanyModal(result)} 
-            className="text-blue-500 hover:text-blue-600 font-medium text-sm hover:underline"
+            className="text-blue-500 hover:text-blue-600 font-medium text-xs hover:underline text-truncate-1 flex-1"
             title={activeTab === 'people' ? result.name : result.name}
           >
             {activeTab === 'people' ? result.name : result.name}
           </button>
         </div>
       </td>
-      <td className="px-3 py-2">
-        <span className="text-sm text-gray-600 dark:text-gray-300" title={activeTab === 'people' ? result.title : result.industry}>
+      <td className="px-2 py-2 table-cell-base">
+        <span className="text-xs text-gray-600 dark:text-gray-300 text-truncate-2" title={activeTab === 'people' ? result.title : result.industry}>
           {activeTab === 'people' ? result.title : result.industry}
         </span>
       </td>
-      <td className="px-3 py-2">
+      <td className="px-2 py-2 table-cell-base">
         <div className="flex items-center">
           {activeTab === 'people' ? (
             <>
-              <Linkedin className="text-blue-500 mr-2 flex-shrink-0" size={14} />
+              <Linkedin className="text-blue-500 mr-1 flex-shrink-0" size={12} />
               <button 
                 onClick={() => openCompanyModal({ 
                   name: result.company, 
                   industry: 'Unknown', 
                   size: 'Unknown',     
                 })} 
-                className="text-blue-500 hover:text-blue-600 text-sm hover:underline"
+                className="text-blue-500 hover:text-blue-600 text-xs hover:underline text-truncate-1 flex-1"
                 title={result.company}
               >
                 {result.company}
               </button>
             </>
           ) : (
-            <span className="text-sm text-gray-600 dark:text-gray-300" title={result.size}>{result.size}</span>
+            <span className="text-xs text-gray-600 dark:text-gray-300 text-truncate-1" title={result.size}>{result.size}</span>
           )}
         </div>
       </td>
-      <td className="px-3 py-2">
+      <td className="px-2 py-2">
         <div className="flex items-center gap-1">
           {activeTab === 'people' && (
             <>
               {result.email && (
                 <button 
-                  className={`p-1 rounded transition-colors ${getIconColor(showEmail)}`}
+                  className={`flex items-center gap-1 px-2 py-1 rounded text-xs border transition-all duration-200 hover-lift ${getActionButtonClass(showEmail)}`}
                   onClick={() => setShowEmail(!showEmail)}
                   title={showEmail ? "Hide Email" : "Show Email"}
                 >
-                  <Mail size={14} />
+                  {showEmail ? <EyeOff size={12} /> : <Eye size={12} />}
+                  <span className="hidden sm:inline">Email</span>
                 </button>
               )}
               {result.phone && (
                 <button 
-                  className={`p-1 rounded transition-colors ${getIconColor(showPhone)}`}
+                  className={`flex items-center gap-1 px-2 py-1 rounded text-xs border transition-all duration-200 hover-lift ${getActionButtonClass(showPhone)}`}
                   onClick={() => setShowPhone(!showPhone)}
                   title={showPhone ? "Hide Phone" : "Show Phone"}
                 >
-                  <Phone size={14} />
+                  {showPhone ? <EyeOff size={12} /> : <Eye size={12} />}
+                  <span className="hidden sm:inline">Phone</span>
                 </button>
               )}
             </>
           )}
         </div>
       </td>
-      <td className="px-3 py-2">
-        <span className="text-xs text-gray-600 dark:text-gray-300" title={result.email}>
+      <td className="px-2 py-2 table-cell-base">
+        <div className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} text-truncate-1`} title={result.email}>
           {activeTab === 'people' && result.email ? (showEmail ? result.email : maskEmail(result.email)) : ''}
-        </span>
+        </div>
       </td>
-      <td className="px-3 py-2">
-        <span className="text-xs text-gray-600 dark:text-gray-300" title={result.phone}>
+      <td className="px-2 py-2 table-cell-base">
+        <div className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} text-truncate-1`} title={result.phone}>
           {activeTab === 'people' && result.phone ? (showPhone ? result.phone : maskPhone(result.phone)) : ''}
-        </span>
+        </div>
       </td>
-      <td className="px-3 py-2">
+      <td className="px-2 py-2 table-cell-base">
         <div className="flex items-center">
-          <MapPin size={12} className="text-gray-400 mr-1" />
-          <span className="text-xs text-gray-600 dark:text-gray-300" title={result.location}>
+          <MapPin size={10} className="text-gray-400 mr-1 flex-shrink-0" />
+          <span className="text-xs text-gray-600 dark:text-gray-300 text-truncate-1" title={result.location}>
             {result.location || '-'}
           </span>
         </div>
       </td>
-      <td className="px-3 py-2">
+      <td className="px-2 py-2">
         <button 
           onClick={() => handleSave(result)}
           className="flex items-center justify-center hover:opacity-80 transition-opacity"
         >
           {result.saved ? (
-            <Check size={14} className="text-green-500" />
+            <Check size={12} className="text-green-500" />
           ) : (
             <span className="text-xs text-blue-500 hover:underline">Save</span>
           )}
