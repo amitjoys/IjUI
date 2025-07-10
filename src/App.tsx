@@ -5,7 +5,7 @@ import Header from './components/Layout/Header';
 import Footer from './components/Layout/Footer';
 import type { Sequence, SequenceStep, LayoutProps } from './types';
 
-// Lazy load all components for better performance
+// Lazy load all components for better performance with preload
 const ApolloDashboard = lazy(() => import('./components/Dashboard/ApolloDashboard'));
 const AnalyticsDashboard = lazy(() => import('./components/Dashboard/AnalyticsDashboard'));
 const ProfilePage = lazy(() => import('./components/Pages/ProfilePage'));
@@ -17,10 +17,10 @@ const SequenceStartPage = lazy(() => import('./components/Pages/Sequence/Sequenc
 const SequenceBuilderPage = lazy(() => import('./components/Pages/Sequence/SequenceBuilderPage'));
 const UserManagement = lazy(() => import('./components/Pages/UserManagement'));
 
-// Optimized loading component
+// Optimized loading component with faster animation
 const LoadingSpinner = () => (
   <div className="flex items-center justify-center h-full">
-    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+    <div className="animate-pulse rounded-full h-8 w-8 bg-blue-500 opacity-75"></div>
     <div className="ml-3 text-gray-500">Loading...</div>
   </div>
 );
