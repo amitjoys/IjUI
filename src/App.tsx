@@ -14,7 +14,7 @@ const RegistrationPage = lazy(() => import('./components/Pages/Registration'));
 const ErrorPage = lazy(() => import('./components/Pages/Errors'));
 const SequenceStartPage = lazy(() => import('./components/Pages/Sequence/SequenceStartPage'));
 const SequenceBuilderPage = lazy(() => import('./components/Pages/Sequence/SequenceBuilderPage'));
-const UserManagement = lazy(() => import('./components/Pages/UserMangement'));
+const UserManagement = lazy(() => import('./components/Pages/UserManagement'));
 
 const MainLayout: React.FC<LayoutProps> = ({ 
   children, 
