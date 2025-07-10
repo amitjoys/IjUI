@@ -5,7 +5,16 @@ import SearchAndFilterSection from './SearchAndFilterSection';
 import UpgradeBanner from './UpgradeBanner';
 import type { DashboardProps } from '../../types';
 
+// Lazy load with preload for better performance
 const LazyResultsTableAndModals = lazy(() => import('../Resultssection/ResultsTableAndModals'));
+
+// Immediate loading component for better UX
+const QuickLoadingSpinner = () => (
+  <div className="flex items-center justify-center h-64">
+    <div className="animate-pulse rounded-full h-6 w-6 bg-blue-500 opacity-75"></div>
+    <div className="ml-2 text-gray-500 text-sm">Loading results...</div>
+  </div>
+);
 
 const ApolloDashboard: React.FC<DashboardProps> = memo(({ 
   isDarkMode, 
@@ -15,6 +24,7 @@ const ApolloDashboard: React.FC<DashboardProps> = memo(({
 }) => {
   const [activeTab, setActiveTab] = useState<string>('people');
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+  const [showResults, setShowResults] = useState<boolean>(false);
 
   // Use the prop from parent component instead of local state
   const isSearchFilterVisible = searchFiltersVisible;
@@ -28,6 +38,14 @@ const ApolloDashboard: React.FC<DashboardProps> = memo(({
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [handleResize]);
+
+  // Delay loading of heavy components
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowResults(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className={`flex flex-col h-full ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-800'}`}>
@@ -84,13 +102,13 @@ const ApolloDashboard: React.FC<DashboardProps> = memo(({
 
           {/* Results Table - Full Height */}
           <div className="flex-1 overflow-hidden">
-            <Suspense fallback={
-              <div className="flex items-center justify-center h-full">
-                <div className="text-xs text-gray-500">Loading...</div>
-              </div>
-            }>
-              <LazyResultsTableAndModals isDarkMode={isDarkMode} activeTab={activeTab} />
-            </Suspense>
+            {showResults ? (
+              <Suspense fallback={<QuickLoadingSpinner />}>
+                <LazyResultsTableAndModals isDarkMode={isDarkMode} activeTab={activeTab} />
+              </Suspense>
+            ) : (
+              <QuickLoadingSpinner />
+            )}
           </div>
         </div>
       </div>
