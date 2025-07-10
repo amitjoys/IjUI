@@ -8,14 +8,11 @@ import AnalyticsDashboard from './components/Dashboard/AnalyticsDashboard';
 const ApolloDashboard = lazy(() => import('./components/Dashboard/ApolloDashboard'));
 const ProfilePage = lazy(() => import('./components/Pages/ProfilePage'));
 const BillingPage = lazy(() => import('./components/Pages/BillingPage'));
-const BillingPage2 = lazy(() => import('./components/Pages/BillingPage2'));
-const BillingPage3 = lazy(() => import('./components/Pages/BillingPage3'));
 const LoginPage = lazy(() => import('./components/Pages/Login'));
 const RegistrationPage = lazy(() => import('./components/Pages/Registration'));
 const ErrorPage = lazy(() => import('./components/Pages/Errors'));
 const SequenceStartPage = lazy(() => import('./components/Pages/Sequence/SequenceStartPage'));
 const SequenceBuilderPage = lazy(() => import('./components/Pages/Sequence/SequenceBuilderPage'));
-const UserManagementPage = lazy(() => import('./components/Pages/UserManagementPage'));
 const UserManagement = lazy(() => import('./components/Pages/UserMangement'));
 
 const MainLayout = ({ children, isDarkMode, toggleDarkMode, isSidebarCollapsed, toggleSidebar, showWebsiteFilters, toggleWebsiteFilters }) => {
