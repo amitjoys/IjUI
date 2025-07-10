@@ -55,13 +55,13 @@ const SearchAndFilterSection = ({ activeTab, isDarkMode, isVisible, toggleVisibi
   };
 
   return (
-    <div className={`h-full flex flex-col ${isDarkMode ? 'bg-gray-800' : 'bg-white'} border-r border-gray-200 dark:border-gray-700`}>
+    <div className={`h-full flex flex-col ${isDarkMode ? 'bg-gray-900' : 'bg-white'} border-r border-gray-200 dark:border-gray-700`}>
       {/* Header */}
-      <div className="flex-shrink-0 p-3 border-b border-gray-200 dark:border-gray-700">
+      <div className="flex-shrink-0 p-4 border-b border-gray-200 dark:border-gray-700">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <span className="text-sm font-medium">Filters</span>
-            <span className={`ml-2 ${isDarkMode ? 'bg-gray-700 text-gray-300' : 'bg-gray-100 text-gray-600'} px-2 py-0.5 rounded-full text-xs`}>
+            <span className={`text-sm font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>Filters</span>
+            <span className={`ml-2 ${isDarkMode ? 'bg-gray-700 text-gray-300' : 'bg-gray-100 text-gray-700'} px-2 py-1 rounded-full text-xs font-medium`}>
               2
             </span>
           </div>
@@ -71,65 +71,65 @@ const SearchAndFilterSection = ({ activeTab, isDarkMode, isVisible, toggleVisibi
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto custom-scrollbar">
         {/* Search Input */}
-        <div className="p-3 border-b border-gray-200 dark:border-gray-700">
+        <div className="p-4 border-b border-gray-200 dark:border-gray-700">
           <input 
             type="text" 
             placeholder={`Search ${activeTab}...`} 
-            className={`w-full border rounded-md px-3 py-2 text-sm ${
+            className={`form-input text-sm ${
               isDarkMode 
-                ? 'bg-gray-700 text-white border-gray-600 placeholder-gray-400' 
-                : 'bg-gray-50 text-gray-800 border-gray-300 placeholder-gray-500'
-            } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20`} 
+                ? 'bg-gray-800 text-white border-gray-600 placeholder-gray-400' 
+                : 'bg-gray-50 text-gray-900 border-gray-300 placeholder-gray-500'
+            }`} 
           />
         </div>
 
         {/* Active Filters */}
-        <div className="p-3 border-b border-gray-200 dark:border-gray-700">
+        <div className="p-4 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center">
-            <span className={`${isDarkMode ? 'bg-blue-900 text-blue-200' : 'bg-blue-50 text-blue-700'} px-2 py-1 rounded-md text-xs`}>
+            <span className={`status-indicator ${isDarkMode ? 'bg-blue-900 text-blue-200' : 'bg-blue-50 text-blue-700'}`}>
               Likely to engage
             </span>
-            <X size={12} className={`ml-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} cursor-pointer`} />
+            <X size={14} className={`ml-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} cursor-pointer hover:text-gray-300`} />
           </div>
         </div>
 
         {/* Website Tracking Section */}
-        <div className="p-3 border-b border-gray-200 dark:border-gray-700">
-          <div className={`p-3 rounded-md border ${isDarkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-200 bg-gray-50'}`}>
-            <div className="space-y-2">
+        <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+          <div className={`p-4 rounded-lg border transition-smooth ${isDarkMode ? 'border-gray-600 bg-gray-800' : 'border-gray-200 bg-gray-50'}`}>
+            <div className="space-y-3">
               {/* Website Tracking Setup Button */}
               <button
                 onClick={() => setIsTrackingModalOpen(true)}
-                className={`flex items-center justify-between w-full p-2 rounded-md transition-colors duration-200 ${
-                  isDarkMode ? 'hover:bg-gray-600' : 'hover:bg-gray-100'
+                className={`flex items-center justify-between w-full p-3 rounded-lg transition-smooth ${
+                  isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
                 }`}
               >
-                <div className="flex items-center space-x-2">
-                  <Globe className="w-4 h-4 text-blue-500" />
-                  <span className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                <div className="flex items-center space-x-3">
+                  <Globe className="w-5 h-5 text-blue-500" />
+                  <span className={`text-sm font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>
                     {trackedWebsites.length > 0 
                       ? `${trackedWebsites.length} Website${trackedWebsites.length > 1 ? 's' : ''} Tracked` 
                       : 'Setup Website Tracking'}
                   </span>
                 </div>
-                <ChevronRight className="w-3 h-3" />
+                <ChevronRight className="w-4 h-4 text-gray-400" />
               </button>
 
               {/* Analytics Button */}
               {trackedWebsites.length > 0 && (
                 <button
                   onClick={handleAnalyticsClick}
-                  className={`flex items-center justify-between w-full p-2 rounded-md transition-colors duration-200 ${
-                    isDarkMode ? 'hover:bg-gray-600' : 'hover:bg-gray-100'
+                  className={`flex items-center justify-between w-full p-3 rounded-lg transition-smooth ${
+                    isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
                   }`}
                 >
-                  <div className="flex items-center space-x-2">
-                    <BarChart className="w-4 h-4 text-blue-500" />
-                    <span className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <div className="flex items-center space-x-3">
+                    <BarChart className="w-5 h-5 text-blue-500" />
+                    <span className={`text-sm font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>
                       View Analytics
                     </span>
                   </div>
-                  <ChevronRight className="w-3 h-3" />
+                  <ChevronRight className="w-4 h-4 text-gray-400" />
                 </button>
               )}
             </div>
@@ -137,25 +137,25 @@ const SearchAndFilterSection = ({ activeTab, isDarkMode, isVisible, toggleVisibi
         </div>
 
         {/* Filter Options */}
-        <div className="p-3 space-y-3">
+        <div className="p-4 space-y-4">
           {currentFilters.map((filter) => (
             <div key={filter.label}>
-              <label className={`block text-xs font-medium mb-1.5 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
                 {filter.label}
                 {filter.label === 'Buying Intent' && (
                   <button
                     onClick={() => setIsBuyerIntentModalOpen(true)}
-                    className="ml-2 text-blue-500 text-xs"
+                    className="ml-2 text-blue-500 hover:text-blue-600 text-sm font-medium"
                   >
                     Edit
                   </button>
                 )}
               </label>
-              <select className={`w-full px-3 py-2 text-xs rounded-md border ${
+              <select className={`form-input text-sm ${
                 isDarkMode 
-                  ? 'bg-gray-700 text-white border-gray-600 focus:border-blue-500' 
+                  ? 'bg-gray-800 text-white border-gray-600 focus:border-blue-500' 
                   : 'bg-white border-gray-300 text-gray-900 focus:border-blue-500'
-              } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20`}>
+              }`}>
                 <option>Select {filter.label}</option>
                 {filter.options.map((option) => (
                   <option key={option} value={option}>{option}</option>
@@ -166,10 +166,10 @@ const SearchAndFilterSection = ({ activeTab, isDarkMode, isVisible, toggleVisibi
         </div>
 
         {/* Save Search Button */}
-        <div className="p-3">
-          <button className={`w-full ${
+        <div className="p-4">
+          <button className={`btn-primary w-full py-3 text-sm font-semibold ${
             isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'
-          } text-white py-2 px-4 rounded-md text-xs font-medium transition-colors duration-200`}>
+          }`}>
             Save Search
           </button>
         </div>
