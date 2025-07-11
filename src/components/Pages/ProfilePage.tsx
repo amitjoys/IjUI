@@ -313,7 +313,7 @@ const ProfileDetail = ({ icon: Icon, label, value, isDarkMode }) => (
   </div>
 );
 
-const CreditCard = ({ task, index, isDarkMode }) => {
+const CreditUsageCard = ({ task, index, isDarkMode }) => {
   const Icon = task.icon;
   
   const getColorClasses = (color) => {
