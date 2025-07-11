@@ -16,6 +16,7 @@ const ErrorPage = lazy(() => import('./components/Pages/Errors'));
 const SequenceStartPage = lazy(() => import('./components/Pages/Sequence/SequenceStartPage'));
 const SequenceBuilderPage = lazy(() => import('./components/Pages/Sequence/SequenceBuilderPage'));
 const UserManagement = lazy(() => import('./components/Pages/UserManagement'));
+const AdminPanel = lazy(() => import('./components/Pages/AdminPanel'));
 
 // Optimized loading component with faster animation
 const LoadingSpinner = () => (
