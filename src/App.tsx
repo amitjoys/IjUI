@@ -152,6 +152,7 @@ const App: React.FC = () => {
               path="/sequences/main/:id" 
               element={<SequenceBuilderPage isDarkMode={isDarkMode} sequences={sequences} addStep={addStep} />}
             />
+            <Route path="/IJManage/*" element={<AdminPanel isDarkMode={isDarkMode} />} />
             <Route path="*" element={<ErrorPage isDarkMode={isDarkMode} />} />
           </Routes>
         </Suspense>
