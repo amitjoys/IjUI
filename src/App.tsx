@@ -86,14 +86,12 @@ const MainLayout: React.FC<LayoutProps> = React.memo(({
     [location.pathname]
   );
 
-  const isIJManagePage = useMemo(() => {
-    const result = location.pathname.startsWith('/IJManage');
-    console.log('🔍 IJManage Check:', { pathname: location.pathname, isIJManagePage: result });
-    return result;
-  }, [location.pathname]);
+  const isIJManagePage = useMemo(() => 
+    location.pathname.startsWith('/IJManage'), 
+    [location.pathname]
+  );
 
   if (isAuthPage || isErrorPage || isIJManagePage) {
-    console.log('🚀 Bypassing MainLayout for:', { isAuthPage, isErrorPage, isIJManagePage, pathname: location.pathname });
     return <>{children}</>;
   }
 
