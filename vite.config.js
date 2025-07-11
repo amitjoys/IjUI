@@ -35,7 +35,7 @@ export default defineConfig({
           // Carousel and sliders
           'carousel-vendor': ['react-slick', 'slick-carousel'],
           // Icons bundle
-          'icon-vendor': ['lucide-react', 'react-icons', '@heroicons/react'],
+          'icon-vendor': ['lucide-react', 'react-icons'],
           // Headless UI and utilities
           'ui-vendor': ['@headlessui/react', 'axios', 'ua-parser-js']
         }
