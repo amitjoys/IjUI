@@ -32,13 +32,15 @@ const CompanyModal = ({ isOpen, closeModal, company, isDarkMode }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className={`w-full max-w-4xl transform overflow-hidden rounded-2xl text-left align-middle shadow-2xl transition-all ${
+              <Dialog.Panel className={`w-full max-w-4xl max-h-[90vh] transform overflow-hidden rounded-2xl text-left align-middle shadow-2xl transition-all ${
                 isDarkMode 
                   ? 'bg-gray-900/95 backdrop-blur-xl border border-gray-700/50' 
                   : 'bg-white/95 backdrop-blur-xl border border-gray-200/50'
-              }`}>
+              } flex flex-col`}>
                 <CompanyHeader company={company} closeModal={closeModal} isDarkMode={isDarkMode} />
-                <CompanyBody company={company} isDarkMode={isDarkMode} />
+                <div className="overflow-y-auto flex-1 min-h-0">
+                  <CompanyBody company={company} isDarkMode={isDarkMode} />
+                </div>
                 <CompanyFooter closeModal={closeModal} isDarkMode={isDarkMode} />
               </Dialog.Panel>
             </Transition.Child>
