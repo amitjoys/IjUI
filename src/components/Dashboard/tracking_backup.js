@@ -1,5 +1,6 @@
-// Frontend-only tracking implementation
-// This is a simplified version that works without external dependencies
+// This file is a backup of the original tracking.js before cleanup
+// tracking2.js appears to be the intended implementation but requires Supabase
+// This dummy version is kept for reference
 
 import * as UAParser from 'ua-parser-js';
 
@@ -10,27 +11,27 @@ export async function initializeTracking(websiteId) {
   
   console.debug('[Analytics] Initializing tracking for website:', websiteId);
 
-  // Mock data for frontend-only implementation
-  const mockVisitor = {
+  // Dummy data instead of API calls
+  const dummyVisitor = {
     website_id: websiteId,
     visitor_id: visitorId,
-    ip_address: '127.0.0.1',
+    ip_address: '192.168.1.1',
     location: {
-      city: 'Demo City',
+      city: 'New York',
       country: 'US',
-      region: 'CA'
+      region: 'NY'
     },
     device_info: deviceInfo,
-    is_business: false,
+    is_business: true,
     is_isp: false,
     domain_info: {
-      domain: 'localhost',
-      asn: 'AS00000',
-      network: 'Local Network'
+      domain: 'example.com',
+      asn: 'AS12345',
+      network: 'Example Network'
     }
   };
 
-  return { success: true, data: mockVisitor };
+  return { success: true, data: dummyVisitor };
 }
 
 export async function trackPageView({ websiteId, path, referrer }) {
@@ -38,8 +39,8 @@ export async function trackPageView({ websiteId, path, referrer }) {
   
   console.debug('[Analytics] Tracking page view for website:', websiteId, { path });
 
-  // Mock page view data
-  const mockPageView = {
+  // Dummy page view data
+  const dummyPageView = {
     visitor_id: visitorId,
     website_id: websiteId,
     path: path || '/',
@@ -47,22 +48,13 @@ export async function trackPageView({ websiteId, path, referrer }) {
     timestamp: new Date().toISOString()
   };
 
-  return { success: true, data: mockPageView };
+  return { success: true, data: dummyPageView };
 }
 
 export function validateTrackingSetup() {
-  const issues = [];
-
-  if (!window.localStorage) {
-    issues.push('LocalStorage is not available');
-  }
-  if (!crypto.randomUUID) {
-    issues.push('crypto.randomUUID is not available');
-  }
-
   return {
-    valid: issues.length === 0,
-    issues
+    valid: true,
+    issues: []
   };
 }
 

@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Activity, Users, Globe, Clock, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import type { ComponentProps } from '../../types';
 
-const AnalyticsDashboard = ({ isDarkMode }) => {
+interface AnalyticsDashboardProps extends ComponentProps {}
+
+const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isDarkMode }) => {
   const [selectedTimeRange, setSelectedTimeRange] = useState('7d');
   const [selectedWebsite, setSelectedWebsite] = useState('example.com');
 
