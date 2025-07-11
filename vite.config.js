@@ -26,29 +26,43 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          // Split vendor libraries into separate chunks for better caching
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'motion-vendor': ['framer-motion'],
+          // Core React bundle
+          'react-vendor': ['react', 'react-dom'],
+          // Router and motion
+          'routing-vendor': ['react-router-dom', 'framer-motion'],
+          // Charts and visualization
           'chart-vendor': ['recharts'], 
+          // Carousel and sliders
           'carousel-vendor': ['react-slick', 'slick-carousel'],
-          'icon-vendor': ['lucide-react', 'react-icons']
+          // Icons bundle
+          'icon-vendor': ['lucide-react', 'react-icons', '@heroicons/react'],
+          // Headless UI and utilities
+          'ui-vendor': ['@headlessui/react', 'axios', 'ua-parser-js']
         }
       }
     },
-    chunkSizeWarningLimit: 300,
+    chunkSizeWarningLimit: 600,
     minify: 'terser',
     terserOptions: {
       compress: {
         drop_console: true,
         drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info', 'console.warn']
+        pure_funcs: ['console.log', 'console.info', 'console.warn', 'console.debug']
       }
     },
     cssCodeSplit: true,
     sourcemap: false,
-    target: 'esnext'
+    target: 'esnext',
+    assetsInlineLimit: 4096,
+    reportCompressedSize: false
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom']
+    include: [
+      'react', 
+      'react-dom', 
+      'react-router-dom',
+      'lucide-react',
+      'framer-motion'
+    ]
   }
 })
