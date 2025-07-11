@@ -86,7 +86,12 @@ const MainLayout: React.FC<LayoutProps> = React.memo(({
     [location.pathname]
   );
 
-  if (isAuthPage || isErrorPage) {
+  const isIJManagePage = useMemo(() => 
+    location.pathname.startsWith('/IJManage'), 
+    [location.pathname]
+  );
+
+  if (isAuthPage || isErrorPage || isIJManagePage) {
     return <>{children}</>;
   }
 
