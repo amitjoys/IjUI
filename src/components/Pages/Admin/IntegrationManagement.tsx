@@ -14,7 +14,8 @@ import {
   Clock,
   Copy,
   Eye,
-  EyeOff
+  EyeOff,
+  Users
 } from 'lucide-react';
 import type { ComponentProps } from '../../../types';
 
