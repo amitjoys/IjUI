@@ -55,7 +55,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, isDarkMode }
             transition={{ duration: 0.2 }}
             className={`${
               isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'
-            } rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden`}
+            } rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
