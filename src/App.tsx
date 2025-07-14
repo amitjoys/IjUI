@@ -6,9 +6,9 @@ import Header from './components/Layout/Header';
 import Footer from './components/Layout/Footer';
 import type { Sequence, SequenceStep, LayoutProps } from './types';
 
-// Lazy load components with prefetch strategy
+// Lazy load components with prefetch strategy - Using optimized version
 const ApolloDashboard = lazy(() => 
-  import('./components/Dashboard/ApolloDashboard').then(module => ({ default: module.default }))
+  import('./components/Dashboard/OptimizedApolloDashboard').then(module => ({ default: module.default }))
 );
 const AnalyticsDashboard = lazy(() => 
   import('./components/Dashboard/AnalyticsDashboard').then(module => ({ default: module.default }))
