@@ -37,7 +37,9 @@ export default defineConfig({
           // Icons bundle
           'icon-vendor': ['lucide-react', 'react-icons'],
           // Headless UI and utilities
-          'ui-vendor': ['@headlessui/react', 'axios', 'ua-parser-js']
+          'ui-vendor': ['@headlessui/react', 'axios', 'ua-parser-js'],
+          // Virtualization
+          'virtualization-vendor': ['react-window']
         }
       }
     },
@@ -53,7 +55,7 @@ export default defineConfig({
     cssCodeSplit: true,
     sourcemap: false,
     target: 'esnext',
-    assetsInlineLimit: 4096,
+    assetsInlineLimit: 8192,
     reportCompressedSize: false
   },
   optimizeDeps: {
