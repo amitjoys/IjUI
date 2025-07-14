@@ -1,80 +1,67 @@
-// Frontend-only tracking implementation
-// This is a simplified version that works without external dependencies
-
+// Optimized tracking implementation - Frontend only
 import * as UAParser from 'ua-parser-js';
 
-export async function initializeTracking(websiteId) {
-  const visitorId = getOrCreateVisitorId();
-  const parser = new UAParser.UAParser();
-  const deviceInfo = parser.getResult();
-  
-  console.debug('[Analytics] Initializing tracking for website:', websiteId);
+let visitorId = null;
+let parser = null;
 
-  // Mock data for frontend-only implementation
-  const mockVisitor = {
-    website_id: websiteId,
-    visitor_id: visitorId,
-    ip_address: '127.0.0.1',
-    location: {
-      city: 'Demo City',
-      country: 'US',
-      region: 'CA'
-    },
-    device_info: deviceInfo,
-    is_business: false,
-    is_isp: false,
-    domain_info: {
-      domain: 'localhost',
-      asn: 'AS00000',
-      network: 'Local Network'
+// Initialize parser once
+const getParser = () => {
+  if (!parser) {
+    parser = new UAParser.UAParser();
+  }
+  return parser;
+};
+
+// Optimize visitor ID generation
+const getOrCreateVisitorId = () => {
+  if (!visitorId) {
+    visitorId = localStorage.getItem('visitorId') || crypto.randomUUID();
+    localStorage.setItem('visitorId', visitorId);
+  }
+  return visitorId;
+};
+
+export async function initializeTracking(websiteId) {
+  const currentVisitorId = getOrCreateVisitorId();
+  const deviceInfo = getParser().getResult();
+  
+  // Return mock data quickly
+  return { 
+    success: true, 
+    data: {
+      website_id: websiteId,
+      visitor_id: currentVisitorId,
+      ip_address: '127.0.0.1',
+      location: { city: 'Demo City', country: 'US', region: 'CA' },
+      device_info: deviceInfo,
+      is_business: false,
+      is_isp: false,
+      domain_info: { domain: 'localhost', asn: 'AS00000', network: 'Local Network' }
     }
   };
-
-  return { success: true, data: mockVisitor };
 }
 
 export async function trackPageView({ websiteId, path, referrer }) {
-  const visitorId = getVisitorId();
+  const currentVisitorId = getOrCreateVisitorId();
   
-  console.debug('[Analytics] Tracking page view for website:', websiteId, { path });
-
-  // Mock page view data
-  const mockPageView = {
-    visitor_id: visitorId,
-    website_id: websiteId,
-    path: path || '/',
-    referrer: referrer || 'direct',
-    timestamp: new Date().toISOString()
+  // Return mock data quickly
+  return { 
+    success: true, 
+    data: {
+      visitor_id: currentVisitorId,
+      website_id: websiteId,
+      path: path || '/',
+      referrer: referrer || 'direct',
+      timestamp: new Date().toISOString()
+    }
   };
-
-  return { success: true, data: mockPageView };
 }
 
 export function validateTrackingSetup() {
   const issues = [];
+  
+  if (!window.localStorage) issues.push('LocalStorage not available');
+  if (!crypto.randomUUID) issues.push('crypto.randomUUID not available');
 
-  if (!window.localStorage) {
-    issues.push('LocalStorage is not available');
-  }
-  if (!crypto.randomUUID) {
-    issues.push('crypto.randomUUID is not available');
-  }
-
-  return {
-    valid: issues.length === 0,
-    issues
-  };
-}
-
-function getOrCreateVisitorId() {
-  let visitorId = localStorage.getItem('visitorId');
-  if (!visitorId) {
-    visitorId = crypto.randomUUID();
-    localStorage.setItem('visitorId', visitorId);
-  }
-  return visitorId;
-}
-
-function getVisitorId() {
-  return localStorage.getItem('visitorId');
+  return { valid: issues.length === 0, issues };
 }
