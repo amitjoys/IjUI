@@ -55,59 +55,71 @@
 
 /* Performance optimized utilities */
 @layer utilities {
-  .transition-fast {
-    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .transition-smooth {
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .text-truncate {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  .loading-skeleton {
-    animation: skeleton-loading 1.5s ease-in-out infinite alternate;
-  }
-  
-  @keyframes skeleton-loading {
-    0% { opacity: 1; }
-    100% { opacity: 0.4; }
-  }
-  
-  /* Scroll optimization */
-  .custom-scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: #d1d5db transparent;
-  }
-  
+  /* Optimized scrollbar styling */
   .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
   }
-  
+
   .custom-scrollbar::-webkit-scrollbar-track {
     background: transparent;
   }
-  
+
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #d1d5db;
-    border-radius: 3px;
+    background: rgba(156, 163, 175, 0.5);
+    border-radius: 4px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
   }
-  
+
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #9ca3af;
+    background: rgba(156, 163, 175, 0.8);
   }
-  
-  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #4b5563;
+
+  /* Performance optimizations */
+  .transition-all {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
   }
-  
-  .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #6b7280;
+
+  .transition-colors {
+    transition-property: color, background-color, border-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+
+  /* Optimize rendering for tables */
+  .table-container {
+    contain: layout style;
+    will-change: transform;
+  }
+
+  /* Optimize backdrop blur */
+  .backdrop-blur-sm {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  /* GPU acceleration for animations */
+  .animate-spin {
+    animation: spin 1s linear infinite;
+    transform: translateZ(0);
+  }
+
+  .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    transform: translateZ(0);
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .5; }
   }
 }
 
