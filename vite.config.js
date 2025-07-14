@@ -64,7 +64,8 @@ export default defineConfig({
       'react-dom', 
       'react-router-dom',
       'lucide-react',
-      'framer-motion'
+      'framer-motion',
+      'react-window'
     ]
   }
 })
